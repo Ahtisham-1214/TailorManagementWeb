@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shirt Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            color: #333;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .section-title {
+            color: #2980b9;
+            margin: 20px 0 15px 0;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .form-field {
+            flex: 1;
+            margin-right: 15px;
+        }
+
+        .form-field:last-child {
+            margin-right: 0;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .divider {
+            border-top: 1px solid #ddd;
+            margin: 20px 0;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 8px 15px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .button-clear {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .button-save {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Shirt Order</h1>
+
+        <div class="form-section">
+            <h2 class="section-title">Measurements</h2>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="neck">Neck (inches)</label>
+                    <input type="text" id="neck" name="neck">
+                </div>
+
+                <div class="form-field">
+                    <label for="chest">Chest (inches)</label>
+                    <input type="text" id="chest" name="chest">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="shoulder">Shoulder (inches)</label>
+                    <input type="text" id="shoulder" name="shoulder">
+                </div>
+
+                <div class="form-field">
+                    <label for="sleeve-length">Sleeve Length (inches)</label>
+                    <input type="text" id="sleeve-length" name="sleeve-length">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="shirt-length">Shirt Length (inches)</label>
+                    <input type="text" id="shirt-length" name="shirt-length">
+                </div>
+
+                <div class="form-field">
+                    <label for="waist">Waist (inches)</label>
+                    <input type="text" id="waist" name="waist">
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="form-section">
+            <h2 class="section-title">Order Details</h2>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="cuff-type">Cuff Type</label>
+                    <select id="cuff-type" name="cuff-type">
+                        <option value="">Select Cuff Type</option>
+                        <option value="single">Single</option>
+                        <option value="double">Double</option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="collar-type">Collar Type</label>
+                    <select id="collar-type" name="collar-type">
+                        <option value="">Select Collar Type</option>
+                        <option value="button-down">Button Down</option>
+                        <option value="spread">Spread</option>
+                        <option value="point">Point</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" name="quantity">
+                </div>
+
+                <div class="form-field">
+                    <label for="fabric">Fabric Type</label>
+                    <select id="fabric" name="fabric">
+                        <option value="">Select Fabric</option>
+                        <option value="cotton">100% Cotton</option>
+                        <option value="linen">Linen</option>
+                        <option value="polyester">Polyester Blend</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="order-date">Order Date</label>
+                    <input type="date" id="order-date" name="order-date">
+                </div>
+
+                <div class="form-field">
+                    <label for="delivery-date">Delivery Date</label>
+                    <input type="date" id="delivery-date" name="delivery-date">
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="form-section">
+            <h2 class="section-title">Additional Information</h2>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="description">Special Instructions</label>
+                    <textarea id="description" name="description" rows="4" style="width: 100%;"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button type="button" class="button button-clear">Clear Order</button>
+            <button type="button" class="button button-save">Place Order</button>
+        </div>
+    </div>
+</body>
+</html>
