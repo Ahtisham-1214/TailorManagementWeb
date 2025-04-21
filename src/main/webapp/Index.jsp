@@ -153,22 +153,37 @@
     <h2>Menu</h2>
     <ul>
         <li>Settings</li>
-        <li>Price</li>
+        <!-- <li>Price</li> -->
+        <li><a href="DashboardServlet?action=price" style="color: white; text-decoration: none;">Price</a></li>
     </ul>
+    <hr style="margin: 20px 0; border-color: rgba(255,255,255,0.2);"/>
+
+    <div class="shop-info" style="font-size: 13px; line-height: 1.6;">
+        <p><strong>Tailor Shop</strong></p>
+        <p>📍 123 Tailor Street<br/>Cityville, ST 12345</p>
+        <p>📞 <a href="tel:+1234567890" style="color: white; text-decoration: none;">+1 (234) 567-890</a></p>
+        <p>✉️ <a href="mailto:yourmail@example.com"
+                 style="color: white; text-decoration: none;">yourmail@example.com</a></p>
+    </div>
 </div>
 
 <div class="overlay" id="overlay"></div>
 
 <div class="main" id="mainContent">
-    <div class="card">
-<%--        <%--%>
-<%--&lt;%&ndash;            String contextPath = request.getContextPath();&ndash;%&gt; when images were not showing--%>
-<%--        %>--%>
-        <img src="${pageContext.request.contextPath}/images/measurement.jpg" alt="Order Image"/>
-        <div class="card-content">
-            <h3>Order</h3>
+    <a href="DashboardServlet?action=order" style="text-decoration: none; color: inherit;">
+        <div class="card" id="ordercard">
+            <%--                <%&#45;&#45;        <%&#45;&#45;%>--%>
+            <%--                <%&#45;&#45;&lt;%&ndash;            String contextPath = request.getContextPath();&ndash;%&gt; when images were not showing&#45;&#45;%>-->--%>
+            <%--        <!--        <%&#45;&#45;        %>&#45;&#45;%>-->--%>
+            <%--        <!--        <%&#45;&#45;    <img src="${pageContext.request.contextPath}/images/measurement.jpg" alt="Order Image"/> now image working without this-->--%>
+            <!--        problem maybe was mnvd clean package or maybe isELI&#45;&#45;%>-->
+
+            <img src="images/measurement.jpg" alt="Order Image"/>
+            <div class="card-content">
+                <h3>Order</h3>
+            </div>
         </div>
-    </div>
+    </a>
 
     <div class="card">
         <img src="" alt="View Image"/>
