@@ -41,12 +41,13 @@ public class LoginServlet extends HttpServlet {
             System.out.println("Database connection established.");
             System.out.println("Authenticating user: " + userName);
 
-            boolean isAuthenticated = authenticateUser(connection, userName, password);
+            String role = authenticateUser(connection, userName, password);
 
-            if (isAuthenticated) {
-                req.getSession().setAttribute("user", userName);
-                System.out.println("User authenticated successfully.");
-//                res.sendRedirect(req.getContextPath() + "/DashboardServlet");
+            if (role != null) {
+                System.out.println("User authenticated successfully. Role: " + role);
+                // req.getSession().setAttribute("user", userName); changes for role
+                
+                //                res.sendRedirect(req.getContextPath() + "/DashboardServlet");
 //                res.sendRedirect("Index.jsp");
 
 
@@ -56,39 +57,52 @@ public class LoginServlet extends HttpServlet {
                 }
                 HttpSession newSession = req.getSession(true);
                 newSession.setAttribute("user", userName);
+                newSession.setAttribute("role", role); // Store the user's role in the session
+                System.out.println("User role stored in session: " + role);
 
                 // Set session timeout to 30 minutes
                 newSession.setMaxInactiveInterval(30*60);
-
+                System.out.println("User authenticated successfully."); 
                 res.sendRedirect(req.getContextPath() + "/DashboardServlet");
             } else {
                 System.out.println("Authentication failed for user: " + userName);
                 req.setAttribute("error", "Invalid username or password");
-//                System.out.println("Forwarding back to Login.jsp with error message.");
+               System.out.println("Forwarding back to Login.jsp with error message.");
                 req.getRequestDispatcher("/Login.jsp").forward(req, res);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             req.setAttribute("error", "Unable to connect to the database. Please try again later.");
-            req.getRequestDispatcher("Login.jsp").forward(req, res);
+            req.getRequestDispatcher("/Login.jsp").forward(req, res);
         } catch (Exception e) {
             req.setAttribute("error", "Server error: " + e.getMessage());
             req.getRequestDispatcher("/Login.jsp").forward(req, res);
         }
     }
 
-    private boolean authenticateUser(Connection connection, String userName, String password) throws Exception {
-        String query = "SELECT 1 FROM users WHERE username = ? AND password = ?";
+    /**
+     * Authenticates the user and retrieves their role from the database.
+     *
+     * @param connection The database connection.
+     * @param userName   The username.
+     * @param password   The password.
+     * @return The user's role if authentication is successful, otherwise null.
+     * @throws Exception If an error occurs during authentication.
+     */
+    private String authenticateUser(Connection connection, String userName, String password) throws Exception {
+        String query = "SELECT role FROM users WHERE username = ? AND password = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, password);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                boolean result = resultSet.next(); // Check if any row is returned
-                System.out.println("Authentication query result: " + result);
-                return result;
-
+                if (resultSet.next()) {
+                    String role = resultSet.getString("role");
+                    System.out.println("Authentication successful. Role: " + role);
+                    return role; // Return the user's role
+                }
             }
         }
+        return null; // Return false if authentication fails
     }
 }
