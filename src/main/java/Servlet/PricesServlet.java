@@ -73,6 +73,14 @@ public class PricesServlet extends HttpServlet {
 
             // Add success message to session
             request.getSession().setAttribute("successMessage", "Prices updated successfully");
+
+            // Introduce a delay to allow frontend animation to complete
+            try {
+                Thread.sleep(5000); // Delay for 2 seconds
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); // Restore interrupted status
+                e.printStackTrace();
+            }
             response.sendRedirect("PricesServlet");
         } catch (SQLException e) {
             request.setAttribute("error", "Update failed" + e.getMessage());

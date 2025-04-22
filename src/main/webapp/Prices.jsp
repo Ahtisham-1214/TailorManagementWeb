@@ -312,7 +312,7 @@
 
                 setTimeout(() => {
                     saveStatus.textContent = '';
-                }, 10000);
+                }, 3000);
             }, 1000);
         });
 
