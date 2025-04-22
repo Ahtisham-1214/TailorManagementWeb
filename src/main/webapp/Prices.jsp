@@ -281,7 +281,7 @@
         document.getElementById('priceForm').addEventListener('submit', function (e) {
             if (!checkChanges()) {
                 e.preventDefault(); // Prevent form submission if validation fails
-                saveStatus.textContent = 'No valid changes to save';
+                saveStatus.textContent = 'No changes to save';
                 saveStatus.style.color = '#e74c3c';
                 setTimeout(() => {
                     saveStatus.textContent = '';
