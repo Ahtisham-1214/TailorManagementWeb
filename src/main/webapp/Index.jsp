@@ -117,7 +117,8 @@
             background: white;
             border-radius: 10px;
             overflow: hidden;
-            width: 300px;
+            width: 350px; /* Increased width */
+            height: 400px; /* Added height to accommodate larger images */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s;
         }
@@ -128,7 +129,7 @@
 
         .card img {
             width: 100%;
-            height: 150px;
+            height: 250px; /* Adjusted height for better image visibility */
             object-fit: cover;
         }
 
@@ -146,24 +147,24 @@
 
 <header>
     <button class="hamburger-menu" id="hamburger">☰</button>
-    <h1>Tailor Management</h1>
+    <h1>${shopName}</h1>
 </header>
 
 <div class="sidebar" id="sidebar">
     <h2>Menu</h2>
     <ul>
-        <li>Settings</li>
+        <li><a href="DashboardServlet?action=setting" style="color: white; text-decoration: none;">Settings</a></li>
         <!-- <li>Price</li> -->
         <li><a href="DashboardServlet?action=price" style="color: white; text-decoration: none;">Price</a></li>
     </ul>
     <hr style="margin: 20px 0; border-color: rgba(255,255,255,0.2);"/>
 
     <div class="shop-info" style="font-size: 13px; line-height: 1.6;">
-        <p><strong>Tailor Shop</strong></p>
-        <p>📍 123 Tailor Street<br/>Cityville, ST 12345</p>
-        <p>📞 <a href="tel:+1234567890" style="color: white; text-decoration: none;">+1 (234) 567-890</a></p>
-        <p>✉️ <a href="mailto:yourmail@example.com"
-                 style="color: white; text-decoration: none;">yourmail@example.com</a></p>
+        <p><strong>${shopName}</strong></p>
+        <p>📍 ${shopAddress}</p>
+        <p>📞 <a href="tel:${shopPhone}" style="color: white; text-decoration: none;">${shopPhone}</a></p>
+        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">✉️ <a href="mailto:${shopEmail}" style="color: white; text-decoration: none;" title="${shopEmail}">${shopEmail}</a></p>
+
     </div>
 </div>
 
@@ -193,7 +194,7 @@
     </div>
 
     <div class="card">
-        <img src="" alt="Analysis Image"/>
+        <img src="${pageContext.request.contextPath}/images/analysis.jpg" alt="Analysis Image"/>
         <div class="card-content">
             <h3>Analysis</h3>
         </div>
