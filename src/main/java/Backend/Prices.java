@@ -1,19 +1,25 @@
 package Backend;
-
+import Database.PricesDatabase;
 public class Prices {
-    float pantPrice;
-    float coatPrice;
-    float shirtPrice;
-    float kameezShalwaarPrice;
-
+    private float pantPrice;
+    private float coatPrice;
+    private float shirtPrice;
+    private float kameezShalwaarPrice;
+    private PricesDatabase pricesDatabase;
     public Prices(){
         // Default constructor
+        pricesDatabase = new PricesDatabase();
+        this.setPantPrice(pricesDatabase.getPantPrice());
+        this.setCoatPrice(pricesDatabase.getCoatPrice());
+        this.setShirtPrice(pricesDatabase.getShirtPrice());
+        this.setKameezShalwaarPrice(pricesDatabase.getKameezShalwaarPrice());
     }
-    public Prices(float pantPrice, float coatPrice, float shirtPrice, float kameezShalwaarPrice) {
-        this.pantPrice = pantPrice;
-        this.coatPrice = coatPrice;
-        this.shirtPrice = shirtPrice;
-        this.kameezShalwaarPrice = kameezShalwaarPrice;
+    public Prices(float pantPrice, float shirtPrice, float coatPrice, float kameezShalwaarPrice) {
+        this.setPantPrice(pantPrice);
+        this.setShirtPrice(shirtPrice);
+        this.setCoatPrice(coatPrice);
+        this.setKameezShalwaarPrice(kameezShalwaarPrice);
+        pricesDatabase = new PricesDatabase(this.getPantPrice(), this.getShirtPrice(), this.getCoatPrice(), this.getKameezShalwaarPrice());
     }
 
     public float getPantPrice() {
