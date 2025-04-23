@@ -58,7 +58,8 @@ public class ShopDetailsServlet extends HttpServlet {
 
         response.sendRedirect("ShopDetailsServlet");
 //        request.getRequestDispatcher("/ShopDetails.jsp").forward(request, response);
-    }
+    
+}
 
 
 }
