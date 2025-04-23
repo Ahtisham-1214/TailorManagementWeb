@@ -149,69 +149,79 @@
     </style>
 </head>
 <body>
-<div class="form-container" >
+<div class="form-container">
     <div class="form-header">Coat</div>
 
-    <div class="form-section">
-        <div class="measurements-grid">
-            <div class="form-group">
-                <label for="chest">Chest</label>
-                <input type="text" id="chest" placeholder="Measurement in cm">
-            </div>
-            <div class="form-group">
-                <label for="waist">Waist</label>
-                <input type="text" id="waist" placeholder="Measurement in cm">
-            </div>
-            <div class="form-group">
-                <label for="sleeve">Sleeve</label>
-                <input type="text" id="sleeve" placeholder="Measurement in cm">
-            </div>
-            <div class="form-group">
-                <label for="shoulder">Shoulder</label>
-                <input type="text" id="shoulder" placeholder="Measurement in cm">
-            </div>
-            <div class="form-group">
-                <label for="status">Status</label>
-                <select id="status">
-                    <option value="">Select status</option>
-                    <option value="pending">Pending</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="quantity">Quantity</label>
-                <input type="number" id="quantity" min="1" value="1">
+    <form id="coatForm">
+        <div class="form-section">
+            <div class="measurements-grid">
+                <div class="form-group">
+                    <label for="chest">Chest</label>
+                    <input type="text" id="chest" name="chest" placeholder="Measurement in cm">
+                </div>
+                <div class="form-group">
+                    <label for="waist">Waist</label>
+                    <input type="text" id="waist" name="waist" placeholder="Measurement in cm">
+                </div>
+                <div class="form-group">
+                    <label for="sleeve">Sleeve</label>
+                    <input type="text" id="sleeve" name="sleeve" placeholder="Measurement in cm">
+                </div>
+                <div class="form-group">
+                    <label for="shoulder">Shoulder</label>
+                    <input type="text" id="shoulder" name="shoulder" placeholder="Measurement in cm">
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                        <option value="" disabled selected hidden>Select status</option>
+                        <option value="1">Pending</option>
+                        <option value="2">In Progress</option>
+                        <option value="3">Completed</option>
+                        <option value="4">Delivered</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" name="quantity" min="1" value="1">
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="form-section">
-        <div class="date-selectors">
-            <div class="form-group date-selector">
-                <label for="order-date">Order Date</label>
-                <input type="date" id="order-date">
+        <div class="form-section">
+            <div class="date-selectors">
+                <div class="form-group date-selector">
+                    <label for="order-date">Order Date</label>
+                    <input type="date" id="order-date" name="order-date">
+                </div>
+                <div class="form-group date-selector">
+                    <label for="delivery-date">Delivery Date</label>
+                    <input type="date" id="delivery-date" name="delivery-date">
+                </div>
             </div>
-            <div class="form-group date-selector">
-                <label for="delivery-date">Delivery Date</label>
-                <input type="date" id="delivery-date">
+        </div>
+
+        <div class="form-section">
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Additional notes about the coat"></textarea>
             </div>
         </div>
-    </div>
 
-    <div class="form-section">
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" placeholder="Additional notes about the coat"></textarea>
+        <div class="form-section">
+            <div class="action-buttons">
+                <button class="btn btn-clear" type="reset">Clear</button>
+                <button class="btn btn-save" type="submit">Save</button>
+            </div>
         </div>
-    </div>
-
-    <div class="form-section">
-        <div class="action-buttons">
-            <button class="btn btn-clear">Clear</button>
-            <button class="btn btn-save">Save</button>
-        </div>
-    </div>
+    </form>
 </div>
+
+<script>
+    // Additional JavaScript to ensure the status dropdown is properly reset
+    document.querySelector('.btn-clear').addEventListener('click', function() {
+        document.getElementById('status').selectedIndex = 0;
+    });
+</script>
 </body>
 </html>
