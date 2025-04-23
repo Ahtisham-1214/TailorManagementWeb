@@ -5,7 +5,9 @@
   Time: 10:00 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -172,14 +174,19 @@
 <div class="form-container">
     <p class="title">Login</p>
 
+    <c:if test="${not empty error}">
+        <p style="color: #fca5a5; background-color: rgba(255, 0, 0, 0.1); text-align: center; padding: 0.75rem; border-radius: 0.375rem; margin-bottom: 1rem;">${error}</p>
+    </c:if>
+
+
     <form class="form" action="LoginServlet" method="post">
         <div class="input-group">
             <label for="username">Username</label>
-            <input type="text" name="username" id="username" placeholder="">
+            <input type="text" name="username" id="username" placeholder="" required>
         </div>
         <div class="input-group">
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" placeholder="">
+            <input type="password" name="password" id="password" placeholder="" required>
         </div>
         <div class="forgot">
             <a rel="noopener noreferrer" href="#">Forgot Password?</a>
