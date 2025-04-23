@@ -7,10 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ShopDetailsDatabase {
-    String shopName;
-    String shopAddress;
-    String shopPhoneNumber;
-    String shopEmailAddress;
+    private String shopName;
+    private String shopAddress;
+    private String shopPhoneNumber;
+    private String shopEmailAddress;
 
     public ShopDetailsDatabase() {
         fetchShopDetails();
