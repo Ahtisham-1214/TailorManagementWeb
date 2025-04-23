@@ -4,44 +4,94 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import Backend.Prices;
 public class PricesDatabase {
-    private Prices prices;
+
+    private float pantPrice;
+    private float shirtPrice;
+    private float coatPrice;
+    private float kameezShalwaarPrice;
+
     public PricesDatabase() {
-        this.prices = new Prices();
-    }
-    public Prices getPrices() {
-        return prices;
+        fetchPrices();
     }
 
-    public void setPrices(Prices prices) {
-        this.prices = prices;
+    public PricesDatabase(float pantPrice, float shirtPrice, float coatPrice, float kameezShalwaarPrice) {
+        this.pantPrice = pantPrice;
+        this.shirtPrice = shirtPrice;
+        this.coatPrice = coatPrice;
+        this.kameezShalwaarPrice = kameezShalwaarPrice;
+        updatePrices();
     }
-
    // Fetch prices from the database
-   public void fetchPrices() throws SQLException {
+   private void fetchPrices() {
     String query = "SELECT pant_price, coat_price, shirt_price, kameez_shalwaar_price FROM price";
     try (Connection connection = DatabaseConnection.getConnection();
          PreparedStatement preparedStatement = connection.prepareStatement(query);
          ResultSet resultSet = preparedStatement.executeQuery()) {
         if (resultSet.next()) {
-            prices.setPantPrice(resultSet.getFloat("pant_price"));
-            prices.setCoatPrice(resultSet.getFloat("coat_price"));
-            prices.setShirtPrice(resultSet.getFloat("shirt_price"));
-            prices.setKameezShalwaarPrice(resultSet.getFloat("kameez_shalwaar_price"));
+            this.setPantPrice(resultSet.getFloat("pant_price"));
+            this.setCoatPrice(resultSet.getFloat("coat_price"));
+            this.setShirtPrice(resultSet.getFloat("shirt_price"));
+            this.setKameezShalwaarPrice(resultSet.getFloat("kameez_shalwaar_price"));
         }
+    }catch (SQLException e) {
+        throw new RuntimeException(e);
     }
 }
 
-    public void updatePrices(Connection connection) throws SQLException {
-        String query = "UPDATE price SET pant_price = ?, coat_price = ?, shirt_price = ?, kameez_shalwaar_price = ? where id = 1";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setFloat(1, prices.getPantPrice());
-            preparedStatement.setFloat(2, prices.getCoatPrice());
-            preparedStatement.setFloat(3, prices.getShirtPrice());
-            preparedStatement.setFloat(4, prices.getKameezShalwaarPrice());
+    private void updatePrices() {
+        // SQL query to update prices in the database
+        String query = "UPDATE price SET pant_price = ?, coat_price = ?, shirt_price = ?, kameez_shalwaar_price = ? WHERE id = 1";
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            // Set the values for the placeholders in the query
+            preparedStatement.setFloat(1, this.getPantPrice());
+            preparedStatement.setFloat(2, this.getCoatPrice());
+            preparedStatement.setFloat(3, this.getShirtPrice());
+            preparedStatement.setFloat(4, this.getKameezShalwaarPrice());
+
+            // Execute the update query
             preparedStatement.executeUpdate();
+
+            System.out.println("Prices updated successfully in the database.");
+        } catch (SQLException e) {
+            // Handle SQL exceptions
+            e.printStackTrace();
+            System.err.println("Failed to update prices in the database: " + e.getMessage());
         }
     }
 
+    public float getPantPrice() {
+        return pantPrice;
+    }
+
+    public void setPantPrice(float pantPrice) {
+        this.pantPrice = pantPrice;
+    }
+
+    public float getShirtPrice() {
+        return shirtPrice;
+    }
+
+    public void setShirtPrice(float shirtPrice) {
+        this.shirtPrice = shirtPrice;
+    }
+
+    public float getCoatPrice() {
+        return coatPrice;
+    }
+
+    public void setCoatPrice(float coatPrice) {
+        this.coatPrice = coatPrice;
+    }
+
+    public float getKameezShalwaarPrice() {
+        return kameezShalwaarPrice;
+    }
+
+    public void setKameezShalwaarPrice(float kameezShalwaarPrice) {
+        this.kameezShalwaarPrice = kameezShalwaarPrice;
+    }
 }
