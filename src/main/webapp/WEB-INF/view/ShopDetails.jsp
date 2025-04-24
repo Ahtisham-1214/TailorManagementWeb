@@ -252,9 +252,9 @@
                 if (btn) btn.textContent = 'Edit';
             });
 
-            // setTimeout(() => {
-            //     saveStatus.textContent = '';
-            // }, 3000);
+            setTimeout(() => {
+                saveStatus.textContent = '';
+            }, 3000);
         }, 1000); // Simulated delay — you can reduce/remove this if desired
     });
 
