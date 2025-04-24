@@ -34,19 +34,18 @@
         <url-pattern>/js/*</url-pattern>
     </servlet-mapping>
 
-    <!-- 4. Welcome Files -->
     <welcome-file-list>
-        <welcome-file>Login.jsp</welcome-file>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>Home</welcome-file>
     </welcome-file-list>
+
 
     <!-- 5. Error Pages -->
     <error-page>
         <error-code>404</error-code>
-        <location>/Error404.jsp</location>
+        <location>/WEB-INF/view/Error404.jsp</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/Error500.jsp</location>
+        <location>/WEB-INF/view/Error500.jsp</location>
     </error-page>
 </web-app>
