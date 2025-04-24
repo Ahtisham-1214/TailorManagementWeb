@@ -171,7 +171,14 @@
         <p><strong>${shopName}</strong></p>
         <p>📍 ${shopAddress}</p>
         <p>📞 <a href="tel:${shopPhone}" style="color: white; text-decoration: none;">${shopPhone}</a></p>
-        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">✉️ <a href="mailto:${shopEmail}" style="color: white; text-decoration: none;" title="${shopEmail}">${shopEmail}</a></p>
+        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">✉️ <a href="mailto:${shopEmail}"
+                                                                                         style="color: white; text-decoration: none;"
+                                                                                         title="${shopEmail}">${shopEmail}</a>
+        </p>
+        <hr style="margin: 20px 0; border-color: rgba(255,255,255,0.2);"/>
+<%--        <p><a href="" style="color: white; text-decoration: none;">🔓 Logout</a></p>--%>
+        <p><a href="LogoutServlet" style="display: inline-block; padding: 8px 15px; background-color: #e74c3c; color: white; border-radius: 5px; text-decoration: none; margin-top: 10px;">🔓 Logout</a>
+        </p>
 
     </div>
 </div>
@@ -194,12 +201,15 @@
         </div>
     </a>
 
-    <div class="card">
-        <img src="${pageContext.request.contextPath}/images/WhatsApp%20Image%202025-04-23%20at%2021.58.36_b15ad94a.jpg" alt="View Image"/>
-        <div class="card-content">
-            <h3>View</h3>
+    <a href="DashboardServlet?action=view" style="text-decoration: none; color: inherit;">
+        <div class="card">
+            <img src="${pageContext.request.contextPath}/images/WhatsApp%20Image%202025-04-23%20at%2021.58.36_b15ad94a-removebg-preview.jpg"
+                 alt="View Image"/>
+            <div class="card-content">
+                <h3>View</h3>
+            </div>
         </div>
-    </div>
+    </a>
 
     <div class="card">
         <img src="${pageContext.request.contextPath}/images/analysis.jpg" alt="Analysis Image"/>
