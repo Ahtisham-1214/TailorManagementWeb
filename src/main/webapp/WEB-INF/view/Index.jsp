@@ -194,7 +194,7 @@
             <%--        <!--        <%&#45;&#45;    <img src="${pageContext.request.contextPath}/images/measurement.jpg" alt="Order Image"/> now image working without this-->--%>
             <!--        problem maybe was mnvd clean package or maybe isELI&#45;&#45;%>-->
 
-            <img src="images/m.jpg" alt="Order Image"/>
+            <img src="${pageContext.request.contextPath}/images/m.jpg" alt="Order Image"/>
             <div class="card-content">
                 <h3>Order</h3>
             </div>
