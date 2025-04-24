@@ -2,6 +2,16 @@
     File Templates. --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%-- Check if the user is logged in --%>
+<%
+    //    HttpSession shopDetailsJSPSession = request.getSession(false);
+    if (session == null || session.getAttribute("user") == null) {
+        response.sendRedirect("LoginServlet");
+        return;
+    }
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 
