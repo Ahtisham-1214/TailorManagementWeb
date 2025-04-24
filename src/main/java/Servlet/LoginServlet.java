@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
             res.sendRedirect(req.getContextPath() + "/DashboardServlet");
             return;
         }
-        req.getRequestDispatcher("/Login.jsp").forward(req, res); // Changed to JSP and added forward slash
+        req.getRequestDispatcher("/WEB-INF/view/Login.jsp").forward(req, res); // Changed to JSP and added forward slash
     }
 
     @Override
@@ -45,11 +45,6 @@ public class LoginServlet extends HttpServlet {
 
             if (role != null) {
                 System.out.println("User authenticated successfully. Role: " + role);
-                // req.getSession().setAttribute("user", userName); changes for role
-                
-                //                res.sendRedirect(req.getContextPath() + "/DashboardServlet");
-//                res.sendRedirect("Index.jsp");
-
 
                 HttpSession oldSession = req.getSession(false);
                 if (oldSession != null) {
@@ -61,22 +56,22 @@ public class LoginServlet extends HttpServlet {
                 System.out.println("User role stored in session: " + role);
 
                 // Set session timeout to 30 minutes
-                newSession.setMaxInactiveInterval(30*60);
+//                newSession.setMaxInactiveInterval(30*60);
                 System.out.println("User authenticated successfully."); 
                 res.sendRedirect(req.getContextPath() + "/DashboardServlet");
             } else {
                 System.out.println("Authentication failed for user: " + userName);
                 req.setAttribute("error", "Invalid username or password");
                System.out.println("Forwarding back to Login.jsp with error message.");
-                req.getRequestDispatcher("/Login.jsp").forward(req, res);
+                req.getRequestDispatcher("/WEB-INF/view/Login.jsp").forward(req, res);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             req.setAttribute("error", "Unable to connect to the database. Please try again later.");
-            req.getRequestDispatcher("/Login.jsp").forward(req, res);
+            req.getRequestDispatcher("/WEB-INF/view/Login.jsp").forward(req, res);
         } catch (Exception e) {
             req.setAttribute("error", "Server error: " + e.getMessage());
-            req.getRequestDispatcher("/Login.jsp").forward(req, res);
+            req.getRequestDispatcher("/WEB-INF/view/Login.jsp").forward(req, res);
         }
     }
 
