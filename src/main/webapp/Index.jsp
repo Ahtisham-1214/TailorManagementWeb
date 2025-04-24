@@ -6,6 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%-- Check if the user is logged in --%>
+<%
+    //    HttpSession shopDetailsJSPSession = request.getSession(false);
+    if (session == null || session.getAttribute("user") == null) {
+        response.sendRedirect("LoginServlet");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -179,7 +187,7 @@
             <%--        <!--        <%&#45;&#45;    <img src="${pageContext.request.contextPath}/images/measurement.jpg" alt="Order Image"/> now image working without this-->--%>
             <!--        problem maybe was mnvd clean package or maybe isELI&#45;&#45;%>-->
 
-            <img src="images/measurement.jpg" alt="Order Image"/>
+            <img src="images/m.jpg" alt="Order Image"/>
             <div class="card-content">
                 <h3>Order</h3>
             </div>
@@ -187,7 +195,7 @@
     </a>
 
     <div class="card">
-        <img src="" alt="View Image"/>
+        <img src="${pageContext.request.contextPath}/images/WhatsApp%20Image%202025-04-23%20at%2021.58.36_b15ad94a.jpg" alt="View Image"/>
         <div class="card-content">
             <h3>View</h3>
         </div>
