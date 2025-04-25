@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import Backend.ShopDetails;
+
 @WebServlet("/DashboardServlet")
 public class DashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,21 +33,40 @@ public class DashboardServlet extends HttpServlet {
                 // Redirect to PricesServlet instead of directly to JSP
                 response.sendRedirect(request.getContextPath() + "/PricesServlet");
                 return;
-//                request.getRequestDispatcher("/Prices.jsp").forward(request, response);
             }else {
-                response.sendRedirect(request.getContextPath() + "/Unauthorized.jsp");
+                response.sendRedirect("WEB-INF/view/Unauthorized.jsp");
             }
-            return;
-        }
-        else if ("order".equals(action)) {
+        } else if ("order".equals(action)) {
             if ("admin".equals(role)) {
-                System.out.println("Forwarding to Coat.jsp");
-                request.getRequestDispatcher("Coat.jsp").forward(request, response);
+                System.out.println("Forwarding to Order Servlet");
+                response.sendRedirect(request.getContextPath() + "/OrderServlet");
             } else {
-                response.sendRedirect(request.getContextPath() + "/Unauthorized.jsp");
+                System.out.println("Failed to forward to Order Servlet");
+                response.sendRedirect( "WEB-INF/view/Unauthorized.jsp");
+                return;
             }
+        } else if ("setting".equals(action)) {
+            if ("admin".equals(role)) {
+                System.out.println("Forwarding to ShopDetailsServlet");
+                response.sendRedirect(request.getContextPath() + "/ShopDetailsServlet");
+            } else
+                request.getRequestDispatcher(  "WEB-INF/view/Unauthorized.jsp").forward(request, response);
+        } else if ("view".equals(action)) {
+            if ("admin".equals(role)) {
+                response.sendRedirect(request.getContextPath() + "/ViewServlet");
+            }
+            else {
+                response.sendRedirect( "WEB-INF/view/Unauthorized.jsp");
+            }
+
+
         } else {
-            request.getRequestDispatcher("/Index.jsp").forward(request, response);
+            ShopDetails shopDetails = new ShopDetails();
+            request.setAttribute("shopName", shopDetails.getName());
+            request.setAttribute("shopAddress", shopDetails.getAddress());
+            request.setAttribute("shopPhone", shopDetails.getPhone());
+            request.setAttribute("shopEmail", shopDetails.getEmail());
+            request.getRequestDispatcher("WEB-INF/view/Index.jsp").forward(request, response);
         }
 
         // Correct forwarding with absolute path
