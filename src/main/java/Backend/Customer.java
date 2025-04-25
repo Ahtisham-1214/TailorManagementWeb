@@ -23,20 +23,23 @@ public class Customer {
     }
 
     public void setName(String name) {
+        if (!name.matches("^[A-Za-z]+([ ]?[A-Za-z]+)*$") || name.isEmpty())
+            throw new IllegalArgumentException("Customer Name must contains only alphabets");
         this.name = name;
     }
 
     public void setPhoneNumber(String phoneNumber) {
+        if (phoneNumber == null || !phoneNumber.matches("\\d{11}")) {
+            throw new IllegalArgumentException("Phone number must be exactly 11 digits and contains only numbers.");
+        }
         this.phoneNumber = phoneNumber;
     }
 
     public Customer(String name, String phoneNumber) {
         this();
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-//        pants = new LinkedList<>();
-//        shirts = new LinkedList<>();
-//        coats = new LinkedList<>();
+        this.setName(name);
+        this.setPhoneNumber(phoneNumber);
+        System.out.println("Customer " + name + " has been created"); // for debugging
     }
 
     public String getName() {
