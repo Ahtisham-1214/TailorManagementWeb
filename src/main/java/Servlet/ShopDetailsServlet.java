@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import Backend.ShopDetails;
@@ -17,11 +18,19 @@ public class ShopDetailsServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        // More robust session checking
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect(request.getContextPath() + "/LoginServlet");
+            return;
+        }
+
         // Check for success message
-        String successMessage = (String) request.getSession().getAttribute("successMessage");
+        String successMessage = (String) session.getAttribute("successMessage");
         if (successMessage != null) {
             request.setAttribute("successMessage", successMessage);
-            request.getSession().removeAttribute("successMessage");
+            session.removeAttribute("successMessage");
         }
 
 
@@ -37,6 +46,13 @@ public class ShopDetailsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // More robust session checking
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect(request.getContextPath() + "/LoginServlet");
+            return;
+        }
+
         ShopDetails shopDetails =
                 new ShopDetails(
                         request.getParameter("name"),
@@ -46,20 +62,12 @@ public class ShopDetailsServlet extends HttpServlet {
 
         System.out.println("ShopDetails set on Servlet Do Post");
         // Add success message to session
-        request.getSession().setAttribute("successMessage", "Shop Details updated successfully");
-
-        // Redirect back to GET to load updated data
-        try {
-            Thread.sleep(2000); // Delay for 2 seconds
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt(); // Restore interrupted status
-            e.printStackTrace();
-        }
+        session.setAttribute("successMessage", "Shop Details updated successfully");
 
         response.sendRedirect("ShopDetailsServlet");
 //        request.getRequestDispatcher("/ShopDetails.jsp").forward(request, response);
-    
-}
+
+    }
 
 
 }
