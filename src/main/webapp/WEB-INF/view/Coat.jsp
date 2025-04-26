@@ -157,23 +157,23 @@
             <div class="measurements-grid">
                 <div class="form-group">
                     <label for="chest">Chest</label>
-                    <input type="text" id="chest" name="chest" placeholder="Measurement in cm">
+                    <input type="text" id="chest" name="chest" placeholder="Measurement in cm" required>
                 </div>
                 <div class="form-group">
                     <label for="waist">Waist</label>
-                    <input type="text" id="waist" name="waist" placeholder="Measurement in cm">
+                    <input type="text" id="waist" name="waist" placeholder="Measurement in cm" required>
                 </div>
                 <div class="form-group">
                     <label for="sleeve">Sleeve</label>
-                    <input type="text" id="sleeve" name="sleeve" placeholder="Measurement in cm">
+                    <input type="text" id="sleeve" name="sleeve" placeholder="Measurement in cm" required>
                 </div>
                 <div class="form-group">
                     <label for="shoulder">Shoulder</label>
-                    <input type="text" id="shoulder" name="shoulder" placeholder="Measurement in cm">
+                    <input type="text" id="shoulder" name="shoulder" placeholder="Measurement in cm" required>
                 </div>
                 <div class="form-group">
                     <label for="status">Status</label>
-                    <select id="status" name="status">
+                    <select id="status" name="status" required>
                         <option value="" disabled selected hidden>Select status</option>
                         <option value="1">Pending</option>
                         <option value="2">In Progress</option>
@@ -183,7 +183,7 @@
                 </div>
                 <div class="form-group">
                     <label for="quantity">Quantity</label>
-                    <input type="number" id="quantity" name="quantity" min="1" value="1">
+                    <input type="number" id="quantity" name="quantity" min="1" value="1" required placeholder="Enter Quantity">
                 </div>
             </div>
         </div>
@@ -217,11 +217,6 @@
     </form>
 </div>
 
-<script>
-    // Additional JavaScript to ensure the status dropdown is properly reset
-    document.querySelector('.btn-clear').addEventListener('click', function() {
-        document.getElementById('status').selectedIndex = 0;
-    });
-</script>
+
 </body>
 </html>
