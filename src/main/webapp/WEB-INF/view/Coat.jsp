@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String message = (String) request.getAttribute("message");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -146,13 +149,53 @@
                 gap: 10px;
             }
         }
+
+        .message {
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .message.success {
+            color: green;
+        }
+
+        .message.error {
+            color: red;
+        }
     </style>
+    <script>
+        // Function to validate the delivery date
+        function validateForm(event) {
+            const orderDate = document.getElementById("order-date").value;
+            const deliveryDate = document.getElementById("delivery-date").value;
+            const message = document.getElementById("message");
+
+            if (message){
+                message.style.display= "none";
+            }
+
+            if (orderDate && deliveryDate && new Date(deliveryDate) <= new Date(orderDate)) {
+                message.textContent = "Delivery date must be after the order date";
+                message.style.color = "red";
+                message.style.display = "block";
+                event.preventDefault();
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </head>
 <body>
 <div class="form-container">
     <div class="form-header">Coat</div>
+    <% if (message != null && !message.isEmpty()) { %>
+    <div id = "message" class="message <%= message.toLowerCase().contains("success") ? "success" : "error" %>">
+        <%= message %>
+    </div>
+    <% } %>
 
-    <form id="coatForm">
+    <form id="coatForm" onsubmit="return validateForm(event)" action="CoatServlet" method="post">
         <div class="form-section">
             <div class="measurements-grid">
                 <div class="form-group">
@@ -164,8 +207,8 @@
                     <input type="text" id="waist" name="waist" placeholder="Measurement in cm" required>
                 </div>
                 <div class="form-group">
-                    <label for="sleeve">Sleeve</label>
-                    <input type="text" id="sleeve" name="sleeve" placeholder="Measurement in cm" required>
+                    <label for="sleeves">Sleeves</label>
+                    <input type="text" id="sleeves" name="sleeves" placeholder="Measurement in cm" required>
                 </div>
                 <div class="form-group">
                     <label for="shoulder">Shoulder</label>
