@@ -150,7 +150,7 @@
     </div>
     <% } %>
 
-    <form id="customerForm" action="OrderServlet" method="post">
+    <form id="customerForm" action="CustomerServlet" method="post">
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" value="<%= name != null ? name : "" %>" required placeholder="Name">
