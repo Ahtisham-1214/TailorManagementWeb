@@ -38,10 +38,10 @@ public class DashboardServlet extends HttpServlet {
             }
         } else if ("order".equals(action)) {
             if ("admin".equals(role)) {
-                System.out.println("Forwarding to Order Servlet");
-                response.sendRedirect(request.getContextPath() + "/OrderServlet");
+                System.out.println("Forwarding to Customer Servlet for Order");
+                response.sendRedirect(request.getContextPath() + "/CustomerServlet");
             } else {
-                System.out.println("Failed to forward to Order Servlet");
+                System.out.println("Failed to forward to Customer Servlet");
                 response.sendRedirect( "WEB-INF/view/Unauthorized.jsp");
                 return;
             }
