@@ -7,8 +7,8 @@ import java.io.IOException;
 
 import Backend.Customer;
 
-@WebServlet("/OrderServlet")
-public class OrderServlet extends HttpServlet {
+@WebServlet("/CustomerServlet")
+public class CustomerServlet extends HttpServlet {
     private static final String Customer_ADDED_SESSION_KEY = "customerAdded";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -36,8 +36,8 @@ public class OrderServlet extends HttpServlet {
         if ("true".equals(orderSubmitted)) {
             req.setAttribute("message", "Customer already Added");
             session.removeAttribute(Customer_ADDED_SESSION_KEY);
-//            req.getRequestDispatcher("/WEB-INF/view/Coat.jsp").forward(req, resp);
-//            return;
+            resp.sendRedirect(req.getContextPath() + "/CoatServlet");
+            return;
         }
 
         req.getRequestDispatcher("/WEB-INF/view/Customer.jsp").forward(req, resp);
@@ -62,14 +62,14 @@ public class OrderServlet extends HttpServlet {
         // Check if name is empty or invalid
         if (name == null || name.trim().isEmpty()) {
             session.setAttribute("message", "Name is required");
-            response.sendRedirect("OrderServlet");
+            response.sendRedirect("CustomerServlet");
             return;
         }
 
         // Check if phone number is invalid
         if (phone == null || phone.trim().isEmpty()) {
             session.setAttribute("message", "Phone number Required");
-            response.sendRedirect("OrderServlet");
+            response.sendRedirect("CustomerServlet");
             return;
         }
 
@@ -83,10 +83,10 @@ public class OrderServlet extends HttpServlet {
             session.removeAttribute("phone");
         } catch (IllegalArgumentException e) {
             session.setAttribute("message", e.getMessage());
-            response.sendRedirect("OrderServlet");
+            response.sendRedirect("CustomerServlet");
             return;
         }
 
-        response.sendRedirect("OrderServlet"); // PRG pattern
+        response.sendRedirect("CustomerServlet"); // PRG pattern
     }
 }
