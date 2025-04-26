@@ -7,8 +7,8 @@ public class Coat implements Measurement {
     private float waist;
     private float sleeves;
     private float shoulder;
-//    private float sleevesWidth;
-    private byte status; // 1 for pending, 2 for processing, 3 for completed, 4 for delivered
+    //    private float sleevesWidth;
+    private byte status; // 1 for pending, 2 for processing, 3 for completed, 4 for delivered, 5 for Cancelled
     private String description;
     private int quantity;
     private Date orderDate;
@@ -29,22 +29,22 @@ public class Coat implements Measurement {
     public void setChest(float chest) {
         if (chest < 1) {
             throw new IllegalArgumentException("Chest must be greater than 0");
-        }
-        this.chest = chest;
+        } else
+            this.chest = chest;
     }
 
     public void setWaist(float waist) {
         if (waist < 1) {
             throw new IllegalArgumentException("Waist must be greater than 0");
-        }
-        this.waist = waist;
+        } else
+            this.waist = waist;
     }
 
     public void setSleeves(float sleeves) {
         if (sleeves < 1) {
             throw new IllegalArgumentException("Sleeves must be greater than 0");
-        }
-        this.sleeves = sleeves;
+        } else
+            this.sleeves = sleeves;
     }
 
     public void setShoulder(float shoulder) {
@@ -55,10 +55,10 @@ public class Coat implements Measurement {
     }
 
     public void setStatus(byte status) {
-        if (status < 1) {
-            throw new IllegalArgumentException("Status should not be 0");
-        }
-        this.status = status;
+        if (status < 1 || status > 5) {
+            throw new IllegalArgumentException("Status should be 1 to 5");
+        } else
+            this.status = status;
     }
 
     public void setQuantity(int quantity) {
@@ -69,15 +69,24 @@ public class Coat implements Measurement {
     }
 
     public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
+        if (orderDate == null) {
+            System.out.println("Order Date for Coat was null but set today date");
+            this.orderDate = java.sql.Date.valueOf(java.time.LocalDate.now());
+        } else
+            this.orderDate = orderDate;
+    }
+
+    public void setDeliveryDate(Date deliveryDate) {
+        if (deliveryDate == null) {
+            this.deliveryDate = java.sql.Date.valueOf(java.time.LocalDate.now().plusDays(7));
+            System.out.println("Delivery Date for Coat was null but set to " +
+                    this.getDeliveryDate());
+        } else
+            this.deliveryDate = deliveryDate;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setDeliveryDate(Date deliveryDate) {
-        this.deliveryDate = deliveryDate;
     }
 
     public float getChest() {
@@ -116,6 +125,11 @@ public class Coat implements Measurement {
         return deliveryDate;
     }
 
+    // for testing
+    public Coat() {
+
+    }
+
     @Override
     public String toString() {
         String statusString;
@@ -137,5 +151,15 @@ public class Coat implements Measurement {
                 ", orderDate=" + orderDate +
                 ", deliveryDate=" + deliveryDate +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        // For testing
+//        Coat coat = new Coat();
+//        coat.setOrderDate(null);
+//        coat.setDeliveryDate(null);
+//        System.out.println(coat.getOrderDate());
+//        System.out.println(coat.getDeliveryDate());
+//        coat.setStatus((byte) 5);
     }
 }
