@@ -125,6 +125,10 @@ public class Coat implements Measurement {
         return deliveryDate;
     }
 
+    public String getClassName(){
+        return this.getClass().getSimpleName();
+    }
+
     // for testing
     public Coat() {
 
