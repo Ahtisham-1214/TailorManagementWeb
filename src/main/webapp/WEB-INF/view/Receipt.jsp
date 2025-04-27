@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: ahtis
@@ -122,10 +123,12 @@
     <tbody>
     <c:forEach var="item" items="${items}">
         <tr>
-            <td>${item.name}</td>
-            <td>${item.quantity}</td>
-            <td>$${item.unitPrice}</td>
-            <td>$${item.amount}</td>
+            <td>${item.getName()}</td>
+            <td>${item.getQuantity()}</td>
+<%--            <td>$${item.getUnitPrice()}</td>--%>
+<%--            <td>$${item.getAmount()}</td>--%>
+            <td><fmt:formatNumber value="${item.getUnitPrice()}" type="currency" currencySymbol="$"/></td>
+            <td><fmt:formatNumber value="${item.getAmount()}" type="currency" currencySymbol="$"/></td>
         </tr>
     </c:forEach>
 
