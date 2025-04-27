@@ -151,36 +151,99 @@
         }
 
         .message {
+            display: none;
+            text-align: center;
             font-weight: bold;
             margin-bottom: 16px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .message.success {
             color: green;
+            display: block;
         }
 
         .message.error {
             color: red;
+            display: block;
         }
+
+
     </style>
     <script>
         // Function to validate the delivery date
         function validateForm(event) {
+            const chestField = document.getElementById("chest");
+            const waistField = document.getElementById("waist");
+            const sleevesField = document.getElementById("sleeves");
+            const shoulderField = document.getElementById("shoulder");
+
             const orderDate = document.getElementById("order-date").value;
             const deliveryDate = document.getElementById("delivery-date").value;
             const message = document.getElementById("message");
 
-            if (message){
-                message.style.display= "none";
+            if (message) {
+                message.style.display = "none";
+            }
+
+            function showMessage(text, type = "error") {
+                if (message) {
+                    message.textContent = text;
+                    message.className = "message " + type + " show";
+                    message.style.display = "block";
+                }
+            }
+
+            function highlightField(field) {
+                field.style.border = "2px solid red";
+            }
+
+            function resetFieldHighlight(field) {
+                field.style.border = "1px solid var(--border-color)";
+            }
+
+            if (!chestField.value.trim()) {
+                highlightField(chestField);
+                showMessage("Chest is Required");
+                chestField.focus();
+                return false;
+            } else {
+                resetFieldHighlight(chestField);
+            }
+
+            if (!waistField.value.trim()) {
+                highlightField(waistField);
+                showMessage("Waist is Required");
+                waistField.focus();
+                return false;
+            } else {
+                resetFieldHighlight(waistField);
+            }
+
+            if (!sleevesField.value.trim()) {
+                highlightField(sleevesField);
+                showMessage("Sleeves is Required");
+                sleevesField.focus();
+                return false;
+            } else {
+                resetFieldHighlight(sleevesField);
+            }
+
+            if (!shoulderField.value.trim()) {
+                highlightField(shoulderField);
+                showMessage("Shoulder is Required");
+                shoulderField.focus();
+                return false;
+            } else {
+                resetFieldHighlight(shoulderField);
             }
 
             if (orderDate && deliveryDate && new Date(deliveryDate) <= new Date(orderDate)) {
-                message.textContent = "Delivery date must be after the order date";
-                message.style.color = "red";
-                message.style.display = "block";
-                event.preventDefault();
+                showMessage("Delivery date must be after the order date");
                 return false;
             }
+
 
             return true;
         }
@@ -189,11 +252,13 @@
 <body>
 <div class="form-container">
     <div class="form-header">Coat</div>
-    <% if (message != null && !message.isEmpty()) { %>
-    <div id = "message" class="message <%= message.toLowerCase().contains("success") ? "success" : "error" %>">
-        <%= message %>
+
+    <div id="message" class="message <%=
+    (message != null && !message.isEmpty())
+    ? (message.toLowerCase().contains("success") ? "success" : "error")
+    : ""%>" aria-live="polite">
+        <%= (message != null) ? message : "" %>
     </div>
-    <% } %>
 
     <form id="coatForm" onsubmit="return validateForm(event)" action="CoatServlet" method="post">
         <div class="form-section">
@@ -217,7 +282,7 @@
                 <div class="form-group">
                     <label for="status">Status</label>
                     <select id="status" name="status" required>
-                        <option value="" disabled selected hidden>Select status</option>
+                        <option disabled selected hidden>Select status</option>
                         <option value="1">Pending</option>
                         <option value="2">In Progress</option>
                         <option value="3">Completed</option>
@@ -226,7 +291,8 @@
                 </div>
                 <div class="form-group">
                     <label for="quantity">Quantity</label>
-                    <input type="number" id="quantity" name="quantity" min="1" value="1" required placeholder="Enter Quantity">
+                    <input type="number" id="quantity" name="quantity" min="1" value="1" required
+                           placeholder="Enter Quantity">
                 </div>
             </div>
         </div>
