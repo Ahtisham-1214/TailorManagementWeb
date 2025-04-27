@@ -27,6 +27,7 @@ public class CoatServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
         float chest = Float.parseFloat(req.getParameter("chest"));
         float waist = Float.parseFloat(req.getParameter("waist"));
         float sleeves = Float.parseFloat(req.getParameter("sleeves"));
@@ -40,6 +41,11 @@ public class CoatServlet extends HttpServlet {
         new Order().getOrders().getFirst().getCoats().add(
                 new Coat(chest, waist, sleeves, shoulder, status, description, quantity, orderDate, deliveryDate));
         System.out.println("Coat added successfully");
+
+        String action = req.getParameter("action");
+        if ("generate".equals(action)) {
+            resp.sendRedirect(req.getContextPath() + "/ReceiptServlet");
+        }
 
     }
 }
