@@ -7,7 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import Backend.ShopDetails;
+
+import Backend.Receipt;
+
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
@@ -22,14 +25,32 @@ public class ReceiptServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/LoginServlet");
             return;
         }
-        ShopDetails shopDetails = new ShopDetails();
-        request.setAttribute("shopName", shopDetails.getName());
-        request.setAttribute("shopAddress", shopDetails.getAddress());
-        request.setAttribute("shopPhone", shopDetails.getPhone());
-        request.setAttribute("shopEmail", shopDetails.getEmail());
+        Receipt receipt = new Receipt();
+        request.setAttribute("shopName", receipt.getShopName());
+        request.setAttribute("shopAddress", receipt.getShopAddress());
+        request.setAttribute("shopPhone", receipt.getShopPhone());
+        request.setAttribute("shopEmail", receipt.getShopEmail());
         request.setAttribute("date", new SimpleDateFormat("MMMM dd, yyyy").format(new Date()));
         request.setAttribute("paymentMethod", "Cash");
 //        response.sendRedirect("Receipt.jsp"); this created new request which removes the attributes
+
+//        Order order = new Order();
+//        order.addOrder(new Customer("Ahtisham", "12345678901"));
+//        order.getOrders().getFirst().getCoats().add(
+//                new Coat(12, 12, 12, 12, (byte) 1,
+//                        "hello", 10, null, null));
+
+
+
+            request.setAttribute("customerName", receipt.getCustomerName());
+//            if (!order.getOrders().getFirst().getCoats().isEmpty()) {
+//                request.setAttribute("itemName", order.getOrders().getFirst().getCoats().getFirst().getClassName());
+//                request.setAttribute("itemQuantity", new Order().getOrders().getFirst().getCoats().getFirst().getQuantity());
+//                request.setAttribute("itemUnitPrice", new Prices().getCoatPrice());
+//                request.setAttribute("itemAmount", );
+//
+//            }
+
         request.getRequestDispatcher("Receipt.jsp").forward(request, response);
     }
 
