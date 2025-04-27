@@ -320,7 +320,8 @@
         <div class="form-section">
             <div class="action-buttons">
                 <button class="btn btn-clear" type="reset">Clear</button>
-                <button class="btn btn-save" type="submit">Save</button>
+                <button class="btn btn-save" name= "action" type="submit" value="save">Save</button>
+                <button class="btn btn-generate" name="action" type="submit" value="generate">Generate Receipt</button>
             </div>
         </div>
     </form>
