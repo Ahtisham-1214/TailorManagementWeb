@@ -43,6 +43,7 @@ public class ReceiptServlet extends HttpServlet {
 
 
             request.setAttribute("customerName", receipt.getCustomerName());
+            request.setAttribute("items", receipt.getItems());
 //            if (!order.getOrders().getFirst().getCoats().isEmpty()) {
 //                request.setAttribute("itemName", order.getOrders().getFirst().getCoats().getFirst().getClassName());
 //                request.setAttribute("itemQuantity", new Order().getOrders().getFirst().getCoats().getFirst().getQuantity());
@@ -51,7 +52,7 @@ public class ReceiptServlet extends HttpServlet {
 //
 //            }
 
-        request.getRequestDispatcher("Receipt.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/view/Receipt.jsp").forward(request, response);
     }
 
     @Override
