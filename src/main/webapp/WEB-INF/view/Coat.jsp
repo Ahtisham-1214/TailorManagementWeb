@@ -174,6 +174,7 @@
     <script>
         // Function to validate the delivery date
         function validateForm(event) {
+            event.preventDefault();
             const chestField = document.getElementById("chest");
             const waistField = document.getElementById("waist");
             const sleevesField = document.getElementById("sleeves");
@@ -244,8 +245,9 @@
                 return false;
             }
 
-
-            return true;
+            // After validation passes, submit the form manually
+            document.getElementById("coatForm").submit();
+            
         }
     </script>
 </head>
