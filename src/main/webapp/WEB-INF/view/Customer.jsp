@@ -108,49 +108,61 @@
     <script>
 
         function validateForm(event) {
-            const nameField = document.getElementById("name");
-            const phoneField = document.getElementById("phone");
+            event.preventDefault();
+            const nameField = document.getElementById("name").value.trim();
+            const phoneField = document.getElementById("phone").value.trim();
+            const nameRegex = /^[A-Za-z]+(?: [A-Za-z]+)*$/; // Improved regex: optional single spaces
             const message = document.getElementById("message");
 
-            if (message){
-                message.style.display= "none";
-            }
-
-            if (!nameField.value.trim()) {
-                if (message) {
-                    message.textContent = "Name is required";
-                    message.style.color = "red";
-                    message.style.display = "block";
-                }
+            if (!nameField) {
+                showMessage("Name is required", "error");
                 nameField.focus();
                 return false;
             }
 
-            if (!phoneField.value.trim()) {
-                if (message) {
-                    message.textContent = "Phone is required";
-                    message.style.color = "red";
-                    message.style.display = "block";
-                }
+            if (!phoneField) {
+                showMessage("Phone is required", "error");
                 phoneField.focus();
                 return false;
             }
 
-            return true;
+            if (!nameRegex.test(nameField)) {
+                showMessage("Customer Name must contain only alphabets", "error");
+                nameField.focus();
+                return false;
+            }
+
+
+
+            // After validation passes, submit the form manually
+            document.getElementById("customerForm").submit();
+        
         }
+
+        function showMessage(text, type) {
+            const message = document.getElementById("message");
+            if (message) {
+                message.textContent = text;
+                message.className = "message " + type + " show";
+                message.style.display = "block";
+            }
+        }
+
+        
     </script>
 </head>
 <body>
 <div class="form-container">
     <h2>Customer Information</h2>
 
-    <% if (message != null && !message.isEmpty()) { %>
-    <div id = "message" class="message <%= message.toLowerCase().contains("success") ? "success" : "error" %>">
-        <%= message %>
+    <div id="message" class="message <%=
+    (message != null && !message.isEmpty())
+    ? (message.toLowerCase().contains("success") ? "success" : "error")
+    : ""%>" >
+        <%= (message != null) ? message : "" %>
     </div>
-    <% } %>
 
-    <form id="customerForm" action="CustomerServlet" method="post">
+    <form id="customerForm" onsubmit="return validateForm(event)" action="CustomerServlet" method="post">
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" value="<%= name != null ? name : "" %>" required placeholder="Name">
