@@ -39,7 +39,7 @@ public class ShopDetailsServlet extends HttpServlet {
         request.setAttribute("address", shopDetails.getAddress());
         request.setAttribute("phone", shopDetails.getPhone());
         request.setAttribute("email", shopDetails.getEmail());
-        request.getRequestDispatcher("/ShopDetails.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/view/ShopDetails.jsp").forward(request, response);
     }
 
     @Override
