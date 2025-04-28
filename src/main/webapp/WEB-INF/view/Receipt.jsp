@@ -127,8 +127,8 @@
             <td>${item.getQuantity()}</td>
 <%--            <td>$${item.getUnitPrice()}</td>--%>
 <%--            <td>$${item.getAmount()}</td>--%>
-            <td><fmt:formatNumber value="${item.getUnitPrice()}" type="currency" currencySymbol="$"/></td>
-            <td><fmt:formatNumber value="${item.getAmount()}" type="currency" currencySymbol="$"/></td>
+            <td><fmt:formatNumber value="${item.getUnitPrice()}" type="currency" currencySymbol="₨ "/></td>
+            <td><fmt:formatNumber value="${item.getAmount()}" type="currency" currencySymbol="₨ "/></td>
         </tr>
     </c:forEach>
 
