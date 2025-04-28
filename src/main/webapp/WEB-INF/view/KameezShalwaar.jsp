@@ -151,37 +151,6 @@
             color: white;
         }
 
-        /* Message styles */
-        .message {
-            display: none;
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 16px;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            padding: 10px;
-            border-radius: 4px;
-        }
-
-        .message.success {
-            color: #155724;
-            background-color: #d4edda;
-            border-color: #c3e6cb;
-            display: block;
-        }
-
-        .message.error {
-            color: #721c24;
-            background-color: #f8d7da;
-            border-color: #f5c6cb;
-            display: block;
-        }
-
-        /* Error highlighting */
-        .error-highlight {
-            border: 2px solid #dc3545 !important;
-        }
-
         @media (max-width: 600px) {
             body {
                 padding: 10px;
@@ -194,11 +163,6 @@
             .form-group {
                 width: calc(100% - 15px);
             }
-
-            .form-row {
-                flex-direction: column;
-                gap: 10px;
-            }
         }
     </style>
 
@@ -207,102 +171,61 @@
             event.preventDefault();
 
             const message = document.getElementById("message");
-            const form = document.getElementById("kameezShalwaarForm");
 
-            // List of required fields with their labels
-            const requiredFields = [
+            const fields = [
                 { id: "kameez-length", label: "Kameez Length" },
                 { id: "chest", label: "Chest" },
                 { id: "sleeve-length", label: "Sleeve Length" },
                 { id: "shoulder", label: "Shoulder" },
                 { id: "neck", label: "Neck" },
                 { id: "shalwar-length", label: "Shalwar Length" },
-                { id: "shalwar-ankle", label: "Shalwar Ankle" },
-                { id: "cuff-type", label: "Cuff Type" },
-                { id: "kameez-type", label: "Kameez Type" },
-                { id: "collar-type", label: "Collar Type" },
-                { id: "shalwar-type", label: "Shalwar Type" },
-                { id: "quantity", label: "Quantity" },
-                { id: "status", label: "Status" }
+                { id: "shalwar-ankle", label: "Shalwar Ankle" }
             ];
 
-            // Reset previous error messages and highlights
             if (message) {
                 message.style.display = "none";
             }
 
-            // Remove error highlights from all fields
-            document.querySelectorAll('.error-highlight').forEach(el => {
-                el.classList.remove('error-highlight');
-            });
-
             function showMessage(text, type = "error") {
                 if (message) {
                     message.textContent = text;
-                    message.className = `message ${type} show`;
+                    message.className = "message " + type + " show";
                     message.style.display = "block";
-                    message.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }
             }
 
-            // Validate required fields
-            for (const field of requiredFields) {
-                const element = document.getElementById(field.id);
-                if (!element.value || element.value.trim() === "") {
-                    element.classList.add('error-highlight');
-                    showMessage(`${field.label} is required.`);
-                    element.focus();
+            function highlightField(field) {
+                field.style.border = "2px solid red";
+            }
+
+            function resetFieldHighlight(field) {
+                field.style.border = "1px solid var(--border-color)";
+            }
+
+            for (const fieldData of fields) {
+                const field = document.getElementById(fieldData.id);
+                if (!field.value.trim()) {
+                    highlightField(field);
+                    showMessage(`${fieldData.label} is required.`);
+                    field.focus();
                     return false;
-                }
-
-                // Additional validation for numeric fields
-                if (field.id !== "cuff-type" && field.id !== "kameez-type" &&
-                    field.id !== "collar-type" && field.id !== "shalwar-type" &&
-                    field.id !== "status") {
-                    if (isNaN(element.value) {
-                        element.classList.add('error-highlight');
-                        showMessage(`${field.label} must be a number.`);
-                        element.focus();
-                        return false;
-                    }
-
-                    if (parseFloat(element.value) <= 0) {
-                        element.classList.add('error-highlight');
-                        showMessage(`${field.label} must be greater than zero.`);
-                        element.focus();
-                        return false;
-                    }
+                } else {
+                    resetFieldHighlight(field);
                 }
             }
 
-            // Validate quantity is at least 1
-            const quantity = document.getElementById("quantity");
-            if (parseInt(quantity.value) < 1) {
-                quantity.classList.add('error-highlight');
-                showMessage("Quantity must be at least 1.");
-                quantity.focus();
-                return false;
-            }
-
-            // Validate date order
             const orderDate = document.getElementById("order-date").value;
             const deliveryDate = document.getElementById("delivery-date").value;
 
-            if (orderDate && deliveryDate) {
-                const orderDateObj = new Date(orderDate);
-                const deliveryDateObj = new Date(deliveryDate);
-
-                if (deliveryDateObj <= orderDateObj) {
-                    showMessage("Delivery date must be after the order date.");
-                    document.getElementById("delivery-date").classList.add('error-highlight');
-                    document.getElementById("order-date").classList.add('error-highlight');
-                    return false;
-                }
+            if (orderDate && deliveryDate && new Date(deliveryDate) <= new Date(orderDate)) {
+                showMessage("Delivery date must be after the order date.");
+                return false;
             }
 
-            // If all validations pass, submit the form
-            form.submit();
+            // All validations passed, submit the form
+            document.getElementById("kameezShalwaarForm").submit();
         }
+
     </script>
 </head>
 <body>
@@ -316,52 +239,53 @@
         <%= (message != null) ? message : "" %>
     </div>
 
-    <form id="kameezShalwaarForm" onsubmit="return validateForm(event)" action="KameezShalwaarServlet" method="post">
+    <form id="kameez-shalwaar-form" onsubmit="return validateForm(event)" action="KameezShalwaarServlet" method="post">
         <!-- Measurements Section -->
         <div class="form-section">
             <div class="section-title">Measurements</div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="kameez-length">Kameez Length</label>
-                    <input type="text" id="kameez-length" name="kameez-length" placeholder="Measurements in inches" required>
+                    <input type="text" id="kameez-length" placeholder="Measurements in inches" required>
                 </div>
 
                 <div class="form-group">
                     <label for="chest">Chest</label>
-                    <input type="text" id="chest" name="chest" placeholder="Measurements in inches" required>
+                    <input type="text" id="chest" placeholder="Measurements in inches" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="sleeve-length">Sleeve Length</label>
-                    <input type="text" id="sleeve-length" name="sleeve-length" placeholder="Measurements in inches" required>
+                    <input type="text" id="sleeve-length" placeholder="Measurements in inches" required>
                 </div>
                 <div class="form-group">
                     <label for="shoulder">Shoulder</label>
-                    <input type="text" id="shoulder" name="shoulder" placeholder="Measurements in inches" required>
+                    <input type="text" id="shoulder" placeholder="Measurements in inches" required>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="neck">Neck</label>
-                    <input type="text" id="neck" name="neck" placeholder="Measurements in inches" required>
+                    <input type="text" id="neck" placeholder="Measurements in inches" required>
                 </div>
                 <div class="form-group">
                     <label for="cuff-type">Cuff Type</label>
-                    <select id="cuff-type" name="cuff-type" required>
-                        <option value="" disabled selected hidden>Select Cuff Type</option>
+                    <select id="cuff-type" required>
+                        <option disabled selected hidden>Select Cuff Type</option>
                         <option value="round">Round</option>
                         <option value="square">Square</option>
                         <option value="angled">Angled</option>
                     </select>
                 </div>
+
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="kameez-type">Kameez Type</label>
-                    <select id="kameez-type" name="kameez-type" required>
-                        <option value="" disabled selected hidden>Select Kameez Type</option>
+                    <select id="kameez-type" required>
+                        <option disabled selected hidden>Select Kameez Type</option>
                         <option value="straight">Straight</option>
                         <option value="a-line">A-Line</option>
                         <option value="angrakha">Angrakha</option>
@@ -370,38 +294,43 @@
 
                 <div class="form-group">
                     <label for="collar-type">Collar Type</label>
-                    <select id="collar-type" name="collar-type" required>
-                        <option value="" disabled selected hidden>Select Collar Type</option>
+                    <select id="collar-type" required>
+                        <option disabled selected hidden>Select Collar Type</option>
                         <option value="round">Round</option>
                         <option value="mandarin">Mandarin</option>
                         <option value="v-neck">V-Neck</option>
                     </select>
                 </div>
+
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="shalwar-length">Shalwar Length</label>
-                    <input type="text" id="shalwar-length" name="shalwar-length" placeholder="Measurements in inches" required>
+                    <input type="text" id="shalwar-length" placeholder="Measurements in inches" required>
                 </div>
+
 
                 <div class="form-group">
                     <label for="shalwar-ankle">Shalwar Ankle</label>
-                    <input type="text" id="shalwar-ankle" name="shalwar-ankle" placeholder="Measurements in inches" required>
+                    <input type="text" id="shalwar-ankle" placeholder="Measurements in inches" required>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="shalwar-type">Shalwar Type</label>
-                    <select id="shalwar-type" name="shalwar-type" required>
-                        <option value="" disabled selected hidden>Select Shalwar Type</option>
+                    <select id="shalwar-type" style="width: 44%;" required>
+                        <option disabled selected hidden>Select Shalwar Type</option>
                         <option value="regular">Regular</option>
                         <option value="patiala">Patiala</option>
                         <option value="churidar">Churidar</option>
                     </select>
                 </div>
+
             </div>
+
+
         </div>
 
         <!-- Order Details Section -->
@@ -410,12 +339,12 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="quantity">Quantity</label>
-                    <input type="number" id="quantity" name="quantity" min="1" value="1" placeholder="Enter Quantity" required>
+                    <input type="number" id="quantity" min="1" value="1" placeholder="Enter Quantity" required>
                 </div>
                 <div class="form-group">
                     <label for="status">Status</label>
-                    <select id="status" name="status" required>
-                        <option value="" disabled selected hidden>Select Status</option>
+                    <select id="status">
+                        <option disabled selected hidden>Select Status</option>
                         <option value="pending">Pending</option>
                         <option value="in-progress">In Progress</option>
                         <option value="completed">Completed</option>
@@ -425,11 +354,11 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="order-date">Order Date</label>
-                    <input type="date" id="order-date" name="order-date">
+                    <input type="date" id="order-date">
                 </div>
                 <div class="form-group">
                     <label for="delivery-date">Delivery Date</label>
-                    <input type="date" id="delivery-date" name="delivery-date">
+                    <input type="date" id="delivery-date">
                 </div>
             </div>
         </div>
@@ -440,7 +369,7 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="instructions">Special Instructions</label>
-                    <textarea id="instructions" name="instructions" placeholder="Enter any special instructions here..."></textarea>
+                    <textarea id="instructions" placeholder="Enter any special instructions here..."></textarea>
                 </div>
             </div>
         </div>
@@ -454,5 +383,6 @@
         </div>
     </form>
 </div>
+
 </body>
 </html>
