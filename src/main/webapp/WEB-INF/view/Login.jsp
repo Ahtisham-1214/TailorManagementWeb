@@ -8,6 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%
+    String message = (String) request.getAttribute("message");
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -162,6 +165,40 @@
             }
         }
     </style>
+    <script>
+        function validateForm(event) {
+            event.preventDefault();
+            const userNameField = document.getElementById("username").value.trim();
+            const passwordField = document.getElementById("password").value.trim();
+            const message = document.getElementById("message");
+            if (message) {
+                message.style.display = "none";
+                message.innerText = "";
+            }
+
+            if (!userNameField){
+                if (message){
+                    message.textContent = "Username is Required";
+                    message.style.display = "block";
+
+                }
+                userNameField.focus();
+                return false;
+            }
+
+            if (!passwordField){
+                if (message){
+                    message.textContent = "Password is Required";
+                    message.style.display = "block";
+
+                }
+                passwordField.focus();
+                return false;
+            }
+
+            document.getElementById("loginForm").submit();
+        }
+    </script>
 </head>
 
 <body>
@@ -174,12 +211,15 @@
 <div class="form-container">
     <p class="title">Login</p>
 
-    <c:if test="${not empty error}">
-        <p style="color: #fca5a5; background-color: rgba(255, 0, 0, 0.1); text-align: center; padding: 0.75rem; border-radius: 0.375rem; margin-bottom: 1rem;">${error}</p>
-    </c:if>
+    <p id="message" style="color: #fca5a5; background-color: rgba(255, 0, 0, 0.1); text-align: center; padding: 0.75rem; border-radius: 0.375rem; margin-bottom: 1rem;
+    ${empty message ? 'display:none;' : ''}">
+        <c:out value="${message}" />
+    </p>
 
 
-    <form class="form" action="LoginServlet" method="post">
+
+
+    <form class="form" id="loginForm" action="LoginServlet" method="post" onsubmit="validateForm(event)">
         <div class="input-group">
             <label for="username">Username</label>
             <input type="text" name="username" id="username" placeholder="" required>
