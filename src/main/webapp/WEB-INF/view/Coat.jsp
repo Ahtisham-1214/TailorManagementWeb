@@ -161,11 +161,13 @@
 
         .message.success {
             color: green;
+            opacity: 1;
             display: block;
         }
 
         .message.error {
             color: red;
+            opacity: 1;
             display: block;
         }
 
@@ -191,7 +193,7 @@
             function showMessage(text, type = "error") {
                 if (message) {
                     message.textContent = text;
-                    message.className = "message " + type + " show";
+                    message.className = "message " + type;
                     message.style.display = "block";
                 }
             }
