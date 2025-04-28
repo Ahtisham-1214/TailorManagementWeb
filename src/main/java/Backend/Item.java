@@ -8,10 +8,10 @@ public class Item {
 
 
     public Item(String name, int quantity, float unitPrice) {
-        this.name = name;
-        this.quantity = quantity;
-        this.unitPrice = unitPrice;
-        this.amount = unitPrice * quantity;
+        this.setName(name);
+        this.setQuantity(quantity);
+        this.setUnitPrice(unitPrice);
+        this.setAmount(this.getQuantity() * this.getUnitPrice());
     }
 
     public String getName() {
@@ -28,5 +28,21 @@ public class Item {
 
     public float getAmount() {
         return amount;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setUnitPrice(float unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
     }
 }
