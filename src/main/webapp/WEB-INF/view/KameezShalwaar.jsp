@@ -164,6 +164,28 @@
                 width: calc(100% - 15px);
             }
         }
+
+        .message {
+            display: none;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 16px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .message.success {
+            color: green;
+            opacity: 1;
+            display: block;
+        }
+
+        .message.error {
+            color: red;
+            opacity: 1;
+            display: block;
+        }
+
     </style>
 
     <script>
@@ -206,7 +228,7 @@
                 const field = document.getElementById(fieldData.id);
                 if (!field.value.trim()) {
                     highlightField(field);
-                    showMessage(`${fieldData.label} is required.`);
+                    showMessage(fieldData.label + " is required");
                     field.focus();
                     return false;
                 } else {
@@ -235,7 +257,7 @@
     <div id="message" class="message <%=
     (message != null && !message.isEmpty())
     ? (message.toLowerCase().contains("success") ? "success" : "error")
-    : ""%>" aria-live="polite">
+    : ""%>" >
         <%= (message != null) ? message : "" %>
     </div>
 
