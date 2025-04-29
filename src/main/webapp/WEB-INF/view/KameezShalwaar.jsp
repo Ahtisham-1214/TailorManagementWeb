@@ -151,6 +151,11 @@
             color: white;
         }
 
+        .btn-generate{
+            background-color: #2ecc71 ;
+            color: white;
+        }
+
         @media (max-width: 600px) {
             body {
                 padding: 10px;
@@ -401,6 +406,8 @@
             <div class="action-buttons">
                 <button class="btn btn-clear" type="reset">Clear</button>
                 <button class="btn btn-save" type="submit">Save</button>
+                <button class="btn btn-generate" name="action" type="submit" value="generate">Generate Receipt</button>
+
             </div>
         </div>
     </form>
