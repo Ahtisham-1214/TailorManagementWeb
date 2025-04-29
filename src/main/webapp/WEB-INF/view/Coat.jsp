@@ -7,6 +7,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    if (session == null || session.getAttribute("user") == null) {
+        response.sendRedirect("LoginServlet");
+        return;
+    }
+
     String message = (String) request.getAttribute("message");
 %>
 <!DOCTYPE html>
