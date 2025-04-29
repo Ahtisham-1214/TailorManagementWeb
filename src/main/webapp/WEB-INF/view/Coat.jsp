@@ -139,6 +139,11 @@
             background-color: #2980b9;
         }
 
+        .btn-generate{
+            background-color: #2ecc71 ;
+            color: white;
+        }
+
         @media (max-width: 600px) {
             .measurements-grid {
                 grid-template-columns: 1fr;
