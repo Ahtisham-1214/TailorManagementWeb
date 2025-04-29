@@ -7,6 +7,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    if (session == null || session.getAttribute("user") == null) {
+        response.sendRedirect("LoginServlet");
+        return;
+    }
+
     String message = (String) request.getAttribute("message");
 %>
 <!DOCTYPE html>
@@ -140,6 +145,33 @@
             background-color: #2980b9;
         }
 
+        .btn-generate{
+            background-color: #2ecc71 ;
+            color: white;
+        }
+
+
+        .message {
+            display: none;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 16px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .message.success {
+            color: green;
+            opacity: 1;
+            display: block;
+        }
+
+        .message.error {
+            color: red;
+            opacity: 1;
+            display: block;
+        }
+
         @media (max-width: 600px) {
             .measurements-grid {
                 grid-template-columns: 1fr;
@@ -155,7 +187,12 @@
     <script>
         function validateForm(event){
             event.preventDefault();
-
+            const waistField = document.getElementById("waist");
+            const lengthField = document.getElementById("length");
+            const inseamField = document.getElementById("inseam");
+            const quantity = document.getElementById("quantity");
+            const orderDate = document.getElementById("order-date").value;
+            const deliveryDate = document.getElementById("delivery-date").value;
             const message = document.getElementById("message");
 
             if (message) {
@@ -178,6 +215,48 @@
                 field.style.border = "1px solid var(--border-color)";
             }
 
+            if (!waistField.value.trim()){
+                highlightField(waistField);
+                showMessage("Waist is Required");
+                waistField.focus();
+                return false;
+            }else {
+                resetFieldHighlight(waistField);
+            }
+
+            if (!lengthField.value.trim()){
+                highlightField(lengthField);
+                showMessage("Length is Required");
+                lengthField.focus();
+                return false;
+            }else {
+                resetFieldHighlight(lengthField);
+            }
+
+            if (!inseamField.value.trim()){
+                highlightField(inseamField);
+                showMessage("Inseam is Required");
+                lengthField.focus();
+                return false;
+            }else {
+                resetFieldHighlight(lengthField);
+            }
+
+            if (!quantity.value.trim()){
+                highlightField(quantity);
+                showMessage("Quantity is Required");
+                quantity.focus();
+                return false;
+            }else {
+                resetFieldHighlight(quantity);
+            }
+
+            if (orderDate && deliveryDate && new Date(deliveryDate) <= new Date(orderDate)) {
+                showMessage("Delivery date must be after the order date");
+                return false;
+            }
+
+
             document.getElementById("pant-form").submit();
         }
     </script>
@@ -193,24 +272,24 @@
         <%= (message != null) ? message : "" %>
     </div>
 
-    <form id="pant-form" onsubmit="return validateForm(event)" action="PricesServlet" method="post">
+    <form id="pant-form" onsubmit="return validateForm(event)" action="PantServlet" method="post">
     <div class="form-section">
         <div class="measurements-grid">
             <div class="form-group">
                 <label for="waist">Waist</label>
-                <input type="text" id="waist" placeholder="Measurement in inches" required>
+                <input type="text" id="waist" name="waist" placeholder="Measurement in inches" required>
             </div>
             <div class="form-group">
                 <label for="length">Length</label>
-                <input type="text" id="length" placeholder="Measurement in inches" required>
+                <input type="text" id="length" name="length" placeholder="Measurement in inches" required>
             </div>
             <div class="form-group">
                 <label for="inseam">Inseam</label>
-                <input type="text" id="inseam" placeholder="Measurement in inches" required>
+                <input type="text" id="inseam" name="inseam" placeholder="Measurement in inches" required>
             </div>
             <div class="form-group">
                 <label for="type">Type</label>
-                <select id="type" required>
+                <select id="type" name="type" required>
                     <option selected disabled hidden>Select type</option>
                     <option value="dress">Dress Pants</option>
                     <option value="casual">Casual Pants</option>
@@ -220,7 +299,7 @@
             </div>
             <div class="form-group">
                 <label for="status">Status</label>
-                <select id="status">
+                <select id="status" name="status">
                     <option selected disabled hidden>Select status</option>
                     <option value="pending">Pending</option>
                     <option value="in-progress">In Progress</option>
@@ -229,7 +308,7 @@
             </div>
             <div class="form-group">
                 <label for="quantity">Quantity</label>
-                <input type="number" id="quantity" min="1" value="1" required>
+                <input type="number" id="quantity" name="quantity" min="1" value="1" required>
             </div>
         </div>
     </div>
@@ -238,11 +317,11 @@
         <div class="date-selectors">
             <div class="form-group date-selector">
                 <label for="order-date">Order Date</label>
-                <input type="date" id="order-date">
+                <input type="date" id="order-date" name="order-date">
             </div>
             <div class="form-group date-selector">
                 <label for="delivery-date">Delivery Date</label>
-                <input type="date" id="delivery-date">
+                <input type="date" id="delivery-date" name="delivery-date">
             </div>
         </div>
     </div>
@@ -250,12 +329,13 @@
     <div class="form-section">
         <div class="form-group">
             <label for="description">Description</label>
-            <textarea id="description" placeholder="Additional notes about the pants"></textarea>
+            <textarea id="description" name="description" placeholder="Additional notes about the pants"></textarea>
         </div>
 
         <div class="action-buttons">
             <button class="btn btn-clear" type="reset">Clear</button>
-            <button class="btn btn-save" type="submit">Save</button>
+            <button class="btn btn-save" name="action" value="submit" type="submit">Save</button>
+            <button class="btn btn-generate" name="action" value="generate" type="submit">Generate Receipt</button>
         </div>
     </div>
 
