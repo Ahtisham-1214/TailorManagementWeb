@@ -145,15 +145,15 @@ public class Coat implements Measurement {
             default -> statusString = "Unknown";
         }
         return "Coat{" +
-                "chest=" + chest +
-                ", waist=" + waist +
-                ", sleeves=" + sleeves +
-                ", shoulder=" + shoulder +
-                ", status=" + statusString +
-                ", description='" + description + '\'' +
-                ", quantity=" + quantity +
-                ", orderDate=" + orderDate +
-                ", deliveryDate=" + deliveryDate +
+                "chest=" + this.getChest() +
+                ", waist=" + this.getWaist() +
+                ", sleeves=" + this.getSleeves() +
+                ", shoulder=" + this.getShoulder() +
+                ", status=" + this.getStatus() +
+                ", description='" + this.getDescription() + '\'' +
+                ", quantity=" + this.getQuantity() +
+                ", orderDate=" + this.getOrderDate() +
+                ", deliveryDate=" + this.getDeliveryDate() +
                 '}';
     }
 
