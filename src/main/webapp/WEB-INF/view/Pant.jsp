@@ -5,7 +5,7 @@
   Time: 11:30 AM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%
     if (session == null || session.getAttribute("user") == null) {
         response.sendRedirect("LoginServlet");
@@ -145,8 +145,13 @@
             background-color: #2980b9;
         }
 
-        .btn-generate{
-            background-color: #2ecc71 ;
+        .btn-generate {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .btn-next{
+            background-color: #2b3a4a;
             color: white;
         }
 
@@ -185,7 +190,13 @@
     </style>
 
     <script>
-        function validateForm(event){
+        function validateForm(event) {
+            const submitter = event.submitter;
+            if (submitter && submitter.name === "action" && submitter.value === "next") {
+                // Skip validation and submit the form
+                return true;
+            }
+
             event.preventDefault();
             const waistField = document.getElementById("waist");
             const lengthField = document.getElementById("length");
@@ -215,39 +226,39 @@
                 field.style.border = "1px solid var(--border-color)";
             }
 
-            if (!waistField.value.trim()){
+            if (!waistField.value.trim()) {
                 highlightField(waistField);
                 showMessage("Waist is Required");
                 waistField.focus();
                 return false;
-            }else {
+            } else {
                 resetFieldHighlight(waistField);
             }
 
-            if (!lengthField.value.trim()){
+            if (!lengthField.value.trim()) {
                 highlightField(lengthField);
                 showMessage("Length is Required");
                 lengthField.focus();
                 return false;
-            }else {
+            } else {
                 resetFieldHighlight(lengthField);
             }
 
-            if (!inseamField.value.trim()){
+            if (!inseamField.value.trim()) {
                 highlightField(inseamField);
                 showMessage("Inseam is Required");
-                lengthField.focus();
+                inseamField.focus();
                 return false;
-            }else {
-                resetFieldHighlight(lengthField);
+            } else {
+                resetFieldHighlight(inseamField);
             }
 
-            if (!quantity.value.trim()){
+            if (!quantity.value.trim()) {
                 highlightField(quantity);
                 showMessage("Quantity is Required");
                 quantity.focus();
                 return false;
-            }else {
+            } else {
                 resetFieldHighlight(quantity);
             }
 
@@ -256,8 +267,15 @@
                 return false;
             }
 
+            // Create a hidden input to preserve the action value
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'action';
+            hiddenInput.value = submitter.value;
+            event.target.appendChild(hiddenInput);
 
             document.getElementById("pant-form").submit();
+
         }
     </script>
 </head>
@@ -273,71 +291,73 @@
     </div>
 
     <form id="pant-form" onsubmit="return validateForm(event)" action="PantServlet" method="post">
-    <div class="form-section">
-        <div class="measurements-grid">
-            <div class="form-group">
-                <label for="waist">Waist</label>
-                <input type="text" id="waist" name="waist" placeholder="Measurement in inches" required>
+        <div class="form-section">
+            <div class="measurements-grid">
+                <div class="form-group">
+                    <label for="waist">Waist</label>
+                    <input type="text" id="waist" name="waist" placeholder="Measurement in inches" required>
+                </div>
+                <div class="form-group">
+                    <label for="length">Length</label>
+                    <input type="text" id="length" name="length" placeholder="Measurement in inches" required>
+                </div>
+                <div class="form-group">
+                    <label for="inseam">Inseam</label>
+                    <input type="text" id="inseam" name="inseam" placeholder="Measurement in inches" required>
+                </div>
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <select id="type" name="type" required>
+                        <option selected disabled hidden>Select type</option>
+                        <option value="dress">Dress Pants</option>
+                        <option value="casual">Casual Pants</option>
+                        <option value="jeans">Jeans</option>
+                        <option value="chinos">Chinos</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                        <option selected disabled hidden>Select status</option>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="length">Length</label>
-                <input type="text" id="length" name="length" placeholder="Measurement in inches" required>
-            </div>
-            <div class="form-group">
-                <label for="inseam">Inseam</label>
-                <input type="text" id="inseam" name="inseam" placeholder="Measurement in inches" required>
-            </div>
-            <div class="form-group">
-                <label for="type">Type</label>
-                <select id="type" name="type" required>
-                    <option selected disabled hidden>Select type</option>
-                    <option value="dress">Dress Pants</option>
-                    <option value="casual">Casual Pants</option>
-                    <option value="jeans">Jeans</option>
-                    <option value="chinos">Chinos</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="status">Status</label>
-                <select id="status" name="status">
-                    <option selected disabled hidden>Select status</option>
-                    <option value="pending">Pending</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="quantity">Quantity</label>
-                <input type="number" id="quantity" name="quantity" min="1" value="1" required>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-section">
-        <div class="date-selectors">
-            <div class="form-group date-selector">
-                <label for="order-date">Order Date</label>
-                <input type="date" id="order-date" name="order-date">
-            </div>
-            <div class="form-group date-selector">
-                <label for="delivery-date">Delivery Date</label>
-                <input type="date" id="delivery-date" name="delivery-date">
-            </div>
-        </div>
-    </div>
-
-    <div class="form-section">
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" name="description" placeholder="Additional notes about the pants"></textarea>
         </div>
 
-        <div class="action-buttons">
-            <button class="btn btn-clear" type="reset">Clear</button>
-            <button class="btn btn-save" name="action" value="submit" type="submit">Save</button>
-            <button class="btn btn-generate" name="action" value="generate" type="submit">Generate Receipt</button>
+        <div class="form-section">
+            <div class="date-selectors">
+                <div class="form-group date-selector">
+                    <label for="order-date">Order Date</label>
+                    <input type="date" id="order-date" name="order-date">
+                </div>
+                <div class="form-group date-selector">
+                    <label for="delivery-date">Delivery Date</label>
+                    <input type="date" id="delivery-date" name="delivery-date">
+                </div>
+            </div>
         </div>
-    </div>
+
+        <div class="form-section">
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Additional notes about the pants"></textarea>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-clear" type="reset">Clear</button>
+                <button class="btn btn-save" name="action" value="submit" type="submit">Save</button>
+                <button class="btn btn-generate" name="action" value="generate" type="submit">Generate Receipt</button>
+                <button class="btn btn-next" name="action" value="next" type="submit" formnovalidate>Next</button>
+
+            </div>
+        </div>
 
     </form>
 </div>
