@@ -194,7 +194,7 @@
             <%--        <!--        <%&#45;&#45;    <img src="${pageContext.request.contextPath}/images/measurement.jpg" alt="Order Image"/> now image working without this-->--%>
             <!--        problem maybe was mnvd clean package or maybe isELI&#45;&#45;%>-->
 
-            <img src="${pageContext.request.contextPath}/images/m.jpg" alt="Order Image"/>
+            <img src="${pageContext.request.contextPath}/images/measurement.jpg" alt="Order Image"/>
             <div class="card-content">
                 <h3>Order</h3>
             </div>
@@ -203,7 +203,7 @@
 
     <a href="DashboardServlet?action=view" style="text-decoration: none; color: inherit;">
         <div class="card">
-            <img src="${pageContext.request.contextPath}/images/WhatsApp%20Image%202025-04-23%20at%2021.58.36_b15ad94a-removebg-preview.jpg"
+            <img src="${pageContext.request.contextPath}/images/view.jpg"
                  alt="View Image"/>
             <div class="card-content">
                 <h3>View</h3>
