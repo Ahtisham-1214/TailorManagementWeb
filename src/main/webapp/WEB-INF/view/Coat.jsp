@@ -149,6 +149,11 @@
             color: white;
         }
 
+        .btn-next{
+            background-color: #2b3a4a;
+            color: white;
+        }
+
         @media (max-width: 600px) {
             .measurements-grid {
                 grid-template-columns: 1fr;
@@ -184,8 +189,14 @@
 
     </style>
     <script>
-        // Function to validate the delivery date
         function validateForm(event) {
+
+            const submitter = event.submitter;
+            if (submitter && submitter.name === "action" && submitter.value === "next") {
+                // Skip validation and submit the form
+                return true;
+            }
+
             event.preventDefault();
             const chestField = document.getElementById("chest");
             const waistField = document.getElementById("waist");
@@ -257,6 +268,12 @@
                 return false;
             }
 
+            // Create a hidden input to preserve the action value
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'action';
+            hiddenInput.value = submitter.value;
+            event.target.appendChild(hiddenInput);
             // After validation passes, submit the form manually
             document.getElementById("coatForm").submit();
             
@@ -336,6 +353,7 @@
                 <button class="btn btn-clear" type="reset">Clear</button>
                 <button class="btn btn-save" name= "action" type="submit" value="save">Save</button>
                 <button class="btn btn-generate" name="action" type="submit" value="generate">Generate Receipt</button>
+                <button class="btn btn-next" name="action" value="next" type="submit" formnovalidate>Next</button>
             </div>
         </div>
     </form>
