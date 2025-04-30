@@ -16,61 +16,144 @@ public class Shirt implements Measurement {
     private Date orderDate;
     private Date deliveryDate;
 
+    public Shirt(float chest, float sleeveLength, float shirtLength, float shoulder,
+                 float neck, byte collarType, byte cuffType, byte status, String description,
+                 int quantity, Date orderDate, Date deliveryDate) {
+        this.setChest(chest);
+        this.setSleeveLength(sleeveLength);
+        this.setShirtLength(shirtLength);
+        this.setShoulder(shoulder);
+        this.setNeck(neck);
+        this.setCollarType(collarType);
+        this.setCuffType(cuffType);
+        this.setStatus(status);
+        this.setDescription(description);
+        this.setQuantity(quantity);
+        this.setOrderDate(orderDate);
+        this.setDeliveryDate(deliveryDate);
 
-    public float getChest() {
-        return chest;
     }
+
 
     public void setChest(float chest) {
-        this.chest = chest;
-    }
-
-    public float getSleeveLength() {
-        return sleeveLength;
+        if (chest < 1){
+            throw new IllegalArgumentException("Chest must be greater than 0");
+        }else{
+            this.chest = chest;
+        }
     }
 
     public void setSleeveLength(float sleeveLength) {
-        this.sleeveLength = sleeveLength;
-    }
-
-    public float getShirtLength() {
-        return shirtLength;
+        if(sleeveLength < 1){
+            throw new IllegalArgumentException("sleeveLength must be greater than 0");
+        }else{
+            this.sleeveLength = sleeveLength;
+        }
     }
 
     public void setShirtLength(float shirtLength) {
-        this.shirtLength = shirtLength;
-    }
-
-    public float getShoulder() {
-        return shoulder;
+        if (shirtLength < 1) {
+            throw new IllegalArgumentException("Shirt length must be greater than 0");
+        }else{
+            this.shirtLength = shirtLength;
+        }
     }
 
     public void setShoulder(float shoulder) {
-        this.shoulder = shoulder;
-    }
-
-    public float getNeck() {
-        return neck;
+        if (shoulder < 1){
+            throw new IllegalArgumentException("shoulder must be greater than 0");
+        }else{
+            this.shoulder = shoulder;
+        }
     }
 
     public void setNeck(float neck) {
-        this.neck = neck;
+        if (neck < 1){
+            throw new IllegalArgumentException("Neck must be greater than 0");
+        }else{
+            this.neck = neck;
+        }
+    }
+
+    public void setStatus(byte status) {
+        if (status < 1 || status > 5) {
+            throw new IllegalArgumentException("Status must be 1 to 5.");
+        }else{
+            this.status = status;
+        }
+    }
+
+    public void setCuffType(byte cuffType) {
+        if (cuffType < 1){
+            throw new IllegalArgumentException("Invalid cuff Type");
+        }else{
+            this.cuffType = cuffType;
+        }
+    }
+
+    public void setCollarType(byte collarType) {
+        if (collarType < 1){
+            throw new IllegalArgumentException("Invalid Collar Type")
+        }else{
+            this.collarType = collarType;
+        }
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setQuantity(int quantity) {
+        if (quantity < 1){
+            throw new IllegalArgumentException("Quantity must be greater than 0");
+        }else{
+            this.quantity = quantity;
+        }
+    }
+
+    public void setOrderDate(Date orderDate) {
+        if (orderDate == null) {
+            System.out.println("Order Date for Coat was null but set today date");
+            this.orderDate = java.sql.Date.valueOf(java.time.LocalDate.now());
+        } else
+            this.orderDate = orderDate;
+    }
+
+    public void setDeliveryDate(Date deliveryDate) {
+        if (deliveryDate == null) {
+            this.deliveryDate = java.sql.Date.valueOf(java.time.LocalDate.now().plusDays(7));
+            System.out.println("Delivery Date for Coat was null but set to " +
+                    this.getDeliveryDate());
+        } else
+            this.deliveryDate = deliveryDate;
     }
 
     public byte getCuffType() {
         return cuffType;
     }
 
-    public void setCuffType(byte cuffType) {
-        this.cuffType = cuffType;
+    public float getShoulder() {
+        return shoulder;
+    }
+
+    public float getShirtLength() {
+        return shirtLength;
+    }
+
+    public float getChest() {
+        return chest;
+    }
+
+    public float getSleeveLength() {
+        return sleeveLength;
+    }
+
+    public float getNeck() {
+        return neck;
     }
 
     public byte getStatus() {
         return status;
-    }
-
-    public void setStatus(byte status) {
-        this.status = status;
     }
 
     public String getDescription() {
@@ -89,97 +172,53 @@ public class Shirt implements Measurement {
         return deliveryDate;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public void setDeliveryDate(Date deliveryDate) {
-        this.deliveryDate = deliveryDate;
-    }
-
     public byte getCollarType() {
         return collarType;
-    }
-
-    public Shirt(float chest, float sleeveLength, float shirtLength, float shoulder, float neck, byte collarType, byte cuffType, byte status, String description, int quantity, Date orderDate, Date deliveryDate) {
-        this.chest = chest;
-        this.sleeveLength = sleeveLength;
-        this.shirtLength = shirtLength;
-        this.shoulder = shoulder;
-        this.neck = neck;
-        this.cuffType = cuffType;
-        this.collarType = collarType;
-        this.status = status;
-        this.description = description;
-        this.quantity = quantity;
-        this.orderDate = orderDate;
-        this.deliveryDate = deliveryDate;
     }
 
     @Override
     public String toString() {
         return "Shirt{" +
-                "chest=" + chest +
-                ", sleeveLength=" + sleeveLength + "\n" +
-                ", shirtLength=" + shirtLength +
-                ", shoulder=" + shoulder +
-                ", neck=" + neck + "\n" +
-                ", collarType=" + convertCollarType(collarType) +
-                ", cuffType=" + convertCuffType(cuffType) +
-                ", status=" + convertStatus(status) + "\n" +
-                ", description='" + description + '\'' +
-                ", quantity=" + quantity + "\n" +
-                ", orderDate=" + orderDate +
-                ", deliveryDate=" + deliveryDate +
+                "chest=" + this.getChest() +
+                ", sleeveLength=" + this.getSleeveLength() + "\n" +
+                ", shirtLength=" + this.getShirtLength() +
+                ", shoulder=" + this.getShoulder() +
+                ", neck=" + this.getNeck() + "\n" +
+                ", collarType=" + convertCollarType(this.getCollarType()) +
+                ", cuffType=" + convertCuffType(this.getCuffType()) +
+                ", status=" + convertStatus(this.getStatus()) + "\n" +
+                ", description='" + this.getDescription() + '\'' +
+                ", quantity=" + this.getQuantity() + "\n" +
+                ", orderDate=" + this.getOrderDate() +
+                ", deliveryDate=" + this.getDeliveryDate() +
                 '}';
     }
 
     private String convertCollarType(byte collarType) {
-        switch (collarType) {
-            case 2:
-                return "Standard";
-            case 1:
-                return "Classic";
-            case 3:
-                return "Cooper";
-            default:
-                return "Unknown";
-        }
+        return switch (collarType) {
+            case 2 -> "Standard";
+            case 1 -> "Classic";
+            case 3 -> "Cooper";
+            default -> "Unknown";
+        };
     }
 
     private String convertCuffType(byte cuffType) {
-        switch (cuffType) {
-            case 1:
-                return "Half Sleeves";
-            case 2:
-                return "Square Cuff";
-            case 3:
-                return "Round Cuff";
-            default:
-                return "Unknown";
-        }
+        return switch (cuffType) {
+            case 1 -> "Half Sleeves";
+            case 2 -> "Square Cuff";
+            case 3 -> "Round Cuff";
+            default -> "Unknown";
+        };
     }
 
     private String convertStatus(byte status) {
-        switch (status) {
-            case 1:
-                return "Pending";
-            case 2:
-                return "Processing";
-            case 3:
-                return "Completed";
-            case 4:
-                return "Delivered";
-            default:
-                return "Unknown";
-        }
+        return switch (status) {
+            case 1 -> "Pending";
+            case 2 -> "Processing";
+            case 3 -> "Completed";
+            case 4 -> "Delivered";
+            default -> "Unknown";
+        };
     }
 }
