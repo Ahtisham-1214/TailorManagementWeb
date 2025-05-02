@@ -8,38 +8,82 @@ public class Receipt {
     private Order order;
     private LinkedList<Item> items;
     private Prices prices;
-    String shopName;
-    String shopAddress;
-    String shopPhone;
-    String shopEmail;
 
-    String customerName;
+    private String shopName;
+    private String shopAddress;
+    private String shopPhone;
+    private String shopEmail;
+    private String customerName;
 
     public Receipt() {
 
-    shopDetails = new ShopDetails();
-    order = new Order();
-    prices = new Prices();
-    items = new LinkedList<>();
-    order.addOrder(new Customer("Ahtisham", "12345678901"));
-    order.getOrders().getFirst().getCoats().add(
-            new Coat(12, 12, 12, 12, (byte) 1,
-                    "hello", 10, null, null));
+        shopDetails = new ShopDetails();
+        prices = new Prices();
+        items = new LinkedList<>();
+        order = new Order();
+
+        this.setShopAddress(shopDetails.getAddress());
+        this.setShopName(shopDetails.getName());
+        this.setShopPhone(shopDetails.getPhone());
+        this.setShopEmail(shopDetails.getEmail());
+
+        if (order.getCustomerName() != null) {
+            this.setCustomerName(order.getCustomerName());
+
+            if (getCoatQuantity() > 0)
+                items.add(new Item("Coat", getCoatQuantity(), prices.getCoatPrice()));
+
+            if (getPantQuantity() > 0)
+                items.add(new Item("Pant", getPantQuantity(), prices.getPantPrice()));
 
 
+            if (getShirtQuantity() > 0)
+                items.add(new Item("Shirt", getShirtQuantity(), prices.getShirtPrice()));
 
-    if (!order.getOrders().getFirst().getCoats().isEmpty()){
-        items.add(new Item("Coat",
-                order.getOrders().getFirst().getCoats().getFirst().getQuantity(),
-                prices.getCoatPrice()));
+            if (getKameezShalwaarQuantity() > 0)
+                items.add(new Item("Kameez Shalwaar", getKameezShalwaarQuantity(), prices.getKameezShalwaarPrice()));
+
+        }
+
+
     }
 
 
-    this.shopAddress = shopDetails.getAddress();
-    this.shopName = shopDetails.getName();
-    this.shopPhone = shopDetails.getPhone();
-    this.shopEmail = shopDetails.getEmail();
-    this.customerName = order.getOrders().getFirst().getName();
+    private int getCoatQuantity() {
+        LinkedList<Coat> coats = order.getOrders().getFirst().getCoats();
+        int coatQuantity = 0;
+        for (Coat coat : coats) {
+            coatQuantity += coat.getQuantity();
+        }
+        return coatQuantity;
+    }
+
+    private int getShirtQuantity() {
+        LinkedList<Shirt> shirts = order.getOrders().getFirst().getShirts();
+        int shirtQuantity = 0;
+        for (Shirt shirt : shirts) {
+            shirtQuantity += shirt.getQuantity();
+        }
+        return shirtQuantity;
+    }
+
+    private int getPantQuantity() {
+        LinkedList<Pant> pants = order.getOrders().getFirst().getPants();
+        int pantQuantity = 0;
+        for (Pant pant : pants) {
+            pantQuantity += pant.getQuantity();
+        }
+        return pantQuantity;
+    }
+
+    private int getKameezShalwaarQuantity() {
+        LinkedList<KameezShalwaar> kameezShalwaars = order.getOrders().getFirst().getKameezShalwaars();
+        int kameezShalwaarQuantity = 0;
+
+        for (KameezShalwaar kameezShalwaar : kameezShalwaars) {
+            kameezShalwaarQuantity += kameezShalwaar.getQuantity();
+        }
+        return kameezShalwaarQuantity;
     }
 
     public LinkedList<Item> getItems() {
@@ -66,4 +110,23 @@ public class Receipt {
         return customerName;
     }
 
+    private void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    private void setShopAddress(String shopAddress) {
+        this.shopAddress = shopAddress;
+    }
+
+    private void setShopPhone(String shopPhone) {
+        this.shopPhone = shopPhone;
+    }
+
+    private void setShopEmail(String shopEmail) {
+        this.shopEmail = shopEmail;
+    }
+
+    private void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 }
