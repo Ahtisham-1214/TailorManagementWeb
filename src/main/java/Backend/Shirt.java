@@ -93,7 +93,7 @@ public class Shirt implements Measurement {
 
     public void setCollarType(byte collarType) {
         if (collarType < 1){
-            throw new IllegalArgumentException("Invalid Collar Type")
+            throw new IllegalArgumentException("Invalid Collar Type");
         }else{
             this.collarType = collarType;
         }
