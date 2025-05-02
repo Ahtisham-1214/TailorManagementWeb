@@ -32,25 +32,11 @@ public class ReceiptServlet extends HttpServlet {
         request.setAttribute("shopEmail", receipt.getShopEmail());
         request.setAttribute("date", new SimpleDateFormat("MMMM dd, yyyy").format(new Date()));
         request.setAttribute("paymentMethod", "Cash");
-//        response.sendRedirect("Receipt.jsp"); this created new request which removes the attributes
-
-//        Order order = new Order();
-//        order.addOrder(new Customer("Ahtisham", "12345678901"));
-//        order.getOrders().getFirst().getCoats().add(
-//                new Coat(12, 12, 12, 12, (byte) 1,
-//                        "hello", 10, null, null));
+//      response.sendRedirect("Receipt.jsp"); this created new request which removes the attributes
 
 
-
-            request.setAttribute("customerName", receipt.getCustomerName());
-            request.setAttribute("items", receipt.getItems());
-//            if (!order.getOrders().getFirst().getCoats().isEmpty()) {
-//                request.setAttribute("itemName", order.getOrders().getFirst().getCoats().getFirst().getClassName());
-//                request.setAttribute("itemQuantity", new Order().getOrders().getFirst().getCoats().getFirst().getQuantity());
-//                request.setAttribute("itemUnitPrice", new Prices().getCoatPrice());
-//                request.setAttribute("itemAmount", );
-//
-//            }
+        request.setAttribute("customerName", receipt.getCustomerName());
+        request.setAttribute("items", receipt.getItems());
 
         request.getRequestDispatcher("/WEB-INF/view/Receipt.jsp").forward(request, response);
     }
