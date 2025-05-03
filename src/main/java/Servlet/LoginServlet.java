@@ -7,12 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Database.DatabaseConnection;
+import Backend.User;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @WebServlet("/LoginServlet")
@@ -39,15 +36,13 @@ public class LoginServlet extends HttpServlet {
         String userName = req.getParameter("username");
         String password = req.getParameter("password");
 
-        try (Connection connection = DatabaseConnection.getConnection()) {
-            if (connection == null) {
-                throw new SQLException("Failed to establish a database connection.");
-            }
+        try {
 
+            User user = new User(userName, password);
             System.out.println("Database connection established.");
             System.out.println("Authenticating user: " + userName);
 
-            String role = authenticateUser(connection, userName, password);
+            String role = user.authenticateUser();
 
             if (role != null) {
                 System.out.println("User authenticated successfully. Role: " + role);
@@ -63,47 +58,23 @@ public class LoginServlet extends HttpServlet {
 
                 // Set session timeout to 30 minutes
 //                newSession.setMaxInactiveInterval(30*60);
-                System.out.println("User authenticated successfully."); 
+                System.out.println("User authenticated successfully.");
                 res.sendRedirect(req.getContextPath() + "/DashboardServlet");
             } else {
                 System.out.println("Authentication failed for user: " + userName);
-                req.setAttribute("error", "Invalid username or password");
-               System.out.println("Forwarding back to Login.jsp with error message.");
+                req.setAttribute("message", "Invalid username or password");
+                System.out.println("Forwarding back to Login.jsp with error message.");
                 req.getRequestDispatcher("/WEB-INF/view/Login.jsp").forward(req, res);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            req.setAttribute("error", "Unable to connect to the database. Please try again later.");
+            System.out.println(e.getMessage());
+            req.setAttribute("message", "Unable to connect to the database. Please try again later.");
             req.getRequestDispatcher("/WEB-INF/view/Login.jsp").forward(req, res);
         } catch (Exception e) {
-            req.setAttribute("error", "Server error: " + e.getMessage());
+            req.setAttribute("message", "Server error: " + e.getMessage());
             req.getRequestDispatcher("/WEB-INF/view/Login.jsp").forward(req, res);
         }
     }
 
-    /**
-     * Authenticates the user and retrieves their role from the database.
-     *
-     * @param connection The database connection.
-     * @param userName   The username.
-     * @param password   The password.
-     * @return The user's role if authentication is successful, otherwise null.
-     * @throws Exception If an error occurs during authentication.
-     */
-    private String authenticateUser(Connection connection, String userName, String password) throws Exception {
-        String query = "SELECT role FROM users WHERE username = ? AND password = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, userName);
-            preparedStatement.setString(2, password);
 
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    String role = resultSet.getString("role");
-                    System.out.println("Authentication successful. Role: " + role);
-                    return role; // Return the user's role
-                }
-            }
-        }
-        return null; // Return false if authentication fails
-    }
 }

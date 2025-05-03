@@ -16,7 +16,7 @@ public class User {
     }
 
 
-    private String authenticateUser() throws Exception {
+    public String authenticateUser() throws Exception {
         this.setRole( userDatabase.authenticateUser(this.getUserName(), this.getPassword()));
         return this.getRole();
     }
@@ -54,10 +54,11 @@ public class User {
         this.role = role;
     }
 
+    // For Testing
     public static void main(String[] args) throws Exception {
 
-        User user = new User("ahtisham", "13");
-        System.out.println(user.authenticateUser());
+//        User user = new User("ahtisham", "13");
+//        System.out.println(user.authenticateUser());
 
 
     }
