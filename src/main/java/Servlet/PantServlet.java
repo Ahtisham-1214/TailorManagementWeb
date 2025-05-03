@@ -17,7 +17,7 @@ public class PantServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
             resp.sendRedirect(req.getContextPath() + "/LoginServlet");
             return;
@@ -34,46 +34,54 @@ public class PantServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
 
+        try {
 
-        if ("save".equals(action)) {
-            // Save form data to session or pass to ReceiptServlet
-            float waist = Float.parseFloat(req.getParameter("waist"));
-            float length = Float.parseFloat(req.getParameter("length"));
-            float inseam = Float.parseFloat(req.getParameter("inseam"));
-            byte type = Byte.parseByte(req.getParameter("type"));
-            byte status = Byte.parseByte(req.getParameter("status"));
-            int quantity = Integer.parseInt(req.getParameter("quantity"));
-            String description = req.getParameter("description");
+            if ("save".equals(action) || "generate".equals(action)) {
+                // Save form data to session or pass to ReceiptServlet
+                float waist = Float.parseFloat(req.getParameter("waist"));
+                float length = Float.parseFloat(req.getParameter("length"));
+                float inseam = Float.parseFloat(req.getParameter("inseam"));
+                byte type = Byte.parseByte(req.getParameter("type"));
+                byte status = Byte.parseByte(req.getParameter("status"));
+                int quantity = Integer.parseInt(req.getParameter("quantity"));
+                String description = req.getParameter("description");
 
-            String orderDateStr = req.getParameter("order-date");
-            String deliveryDateStr = req.getParameter("delivery-date");
+                String orderDateStr = req.getParameter("order-date");
+                String deliveryDateStr = req.getParameter("delivery-date");
 
-            Date orderDate = null;
-            Date deliveryDate = null;
+                Date orderDate = null;
+                Date deliveryDate = null;
 
-            if (orderDateStr != null && !orderDateStr.isEmpty()) {
-                orderDate = java.sql.Date.valueOf(orderDateStr);
+                if (orderDateStr != null && !orderDateStr.isEmpty()) {
+                    orderDate = java.sql.Date.valueOf(orderDateStr);
+                }
+
+                if (deliveryDateStr != null && !deliveryDateStr.isEmpty()) {
+                    deliveryDate = java.sql.Date.valueOf(deliveryDateStr);
+                }
+
+                new Order().addPantsToOrder(new Pant(waist, length, type, inseam, status,
+                        description, quantity, orderDate, deliveryDate));
+
+                setAttributes(session, req);
+
             }
-
-            if (deliveryDateStr != null && !deliveryDateStr.isEmpty()) {
-                deliveryDate = java.sql.Date.valueOf(deliveryDateStr);
+            if ("generate".equals(action)) {
+                // Save form data to session or pass to ReceiptServlet
+                setAttributes(session, req);
+                System.out.println("Redirecting to ReceiptServlet from Pant servlet"); // debugging
+                resp.sendRedirect(req.getContextPath() + "/ReceiptServlet");
+            } else if ("next".equals(action)) {
+                resp.sendRedirect(req.getContextPath() + "/ShirtServlet");
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/PantServlet");
             }
-
-            new Order().addPantsToOrder(new Pant(waist, length, type, inseam, status,
-                    description, quantity, orderDate, deliveryDate));
-
-            setAttributes(session, req);
-            resp.sendRedirect(req.getContextPath() + "/PantServlet");
-            return;
-        } else if ("next".equals(action)) {
-            resp.sendRedirect(req.getContextPath() + "/ShirtServlet");
-            return;
-        } else if ("generate".equals(action)) {
-            // Save form data to session or pass to ReceiptServlet
-            setAttributes(session, req);
-            System.out.println("Redirecting to ReceiptServlet from Pant servlet"); // debugging
-            resp.sendRedirect(req.getContextPath() + "/ReceiptServlet");
-            return;
+        } catch (NumberFormatException e) {
+            req.setAttribute("error", "Invalid number: " + e.getMessage());
+            req.getRequestDispatcher("/WEB-INF/view/Pant.jsp").forward(req, resp);
+        } catch (Exception e) {
+            req.setAttribute("error", "Error: " + e.getMessage());
+            req.getRequestDispatcher("/WEB-INF/view/Pant.jsp").forward(req, resp);
         }
     }
 
