@@ -309,19 +309,19 @@
                     <label for="type">Type</label>
                     <select id="type" name="type" required>
                         <option selected disabled hidden>Select type</option>
-                        <option value="dress">Dress Pants</option>
-                        <option value="casual">Casual Pants</option>
-                        <option value="jeans">Jeans</option>
-                        <option value="chinos">Chinos</option>
+                        <option value="1">Dress Pants</option>
+                        <option value="2">Casual Pants</option>
+                        <option value="3">Jeans</option>
+                        <option value="4">Chinos</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="status">Status</label>
                     <select id="status" name="status">
                         <option selected disabled hidden>Select status</option>
-                        <option value="pending">Pending</option>
-                        <option value="in-progress">In Progress</option>
-                        <option value="completed">Completed</option>
+                        <option value="1">Pending</option>
+                        <option value="2">In Progress</option>
+                        <option value="3">Completed</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -352,7 +352,7 @@
 
             <div class="action-buttons">
                 <button class="btn btn-clear" type="reset">Clear</button>
-                <button class="btn btn-save" name="action" value="submit" type="submit">Save</button>
+                <button class="btn btn-save" name="action" value="save" type="submit">Save</button>
                 <button class="btn btn-generate" name="action" value="generate" type="submit">Generate Receipt</button>
                 <button class="btn btn-next" name="action" value="next" type="submit" formnovalidate>Next</button>
 
