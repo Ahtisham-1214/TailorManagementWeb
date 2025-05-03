@@ -5,7 +5,7 @@
   Time: 9:51 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%
     if (session == null || session.getAttribute("user") == null) {
         response.sendRedirect("LoginServlet");
@@ -21,138 +21,212 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shirt Order Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            color: #333;
-        }
+<STYLE>
+    :root {
+        --primary-color: #2c3e50;
+        --secondary-color: #34495e;
+        --accent-color: #3498db;
+        --light-gray: #ecf0f1;
+        --dark-gray: #7f8c8d;
+        --border-color: #bdc3c7;
+        --success-color: #2ecc71;
+        --error-color: #e74c3c;
+        --divider-color: #eee;
+    }
 
-        h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-        }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f9f9f9;
+        padding: 20px;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+    }
 
-        .section-title {
-            color: #2980b9;
-            margin: 20px 0 15px 0;
-        }
+    .form-container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        width: 100%;
+        max-width: 800px;
+    }
 
-        .form-header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 15px 20px;
-            font-size: 24px;
-            font-weight: 600;
-        }
+    .form-header {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 15px 20px;
+        font-size: 24px;
+        font-weight: 600;
+        margin: 0;
+    }
 
-        .form-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+    .form-section {
+        padding: 20px;
+    }
 
-        .form-section {
-            margin-bottom: 20px;
-        }
+    .section-title {
+        color: var(--secondary-color);
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
 
+    .form-row {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .form-field {
+        flex: 1;
+    }
+
+    .form-field label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+        color: var(--secondary-color);
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        font-size: 14px;
+        box-sizing: border-box;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .form-field textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+        outline: none;
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+
+    .divider {
+        height: 1px;
+        background-color: var(--divider-color);
+        margin: 0 20px;
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding: 20px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 14px;
+    }
+
+    .btn-clear {
+        background-color: var(--light-gray);
+        color: var(--secondary-color);
+    }
+
+    .btn-clear:hover {
+        background-color: #dfe6e9;
+    }
+
+    .btn-save {
+        background-color: var(--accent-color);
+        color: white;
+    }
+
+    .btn-save:hover {
+        background-color: #2980b9;
+    }
+
+    .btn-generate {
+        background-color: var(--success-color);
+        color: white;
+    }
+
+    .btn-generate:hover {
+        background-color: #27ae60;
+    }
+
+    .btn-next {
+        background-color: #2b3a4a;
+        color: white;
+    }
+
+    .btn-next:hover {
+        background-color: #1a252f;
+    }
+
+    .message {
+        display: none;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 16px;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .message.success {
+        color: green;
+        opacity: 1;
+        display: block;
+    }
+
+    .message.error {
+        color: red;
+        opacity: 1;
+        display: block;
+    }
+
+    @media (max-width: 600px) {
         .form-row {
-            display: flex;
-            margin-bottom: 15px;
-        }
-
-        .form-field {
-            flex: 1;
-            margin-right: 15px;
-        }
-
-        .form-field:last-child {
-            margin-right: 0;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        input[type="number"],
-        select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .divider {
-            border-top: 1px solid #ddd;
-            margin: 20px 0;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .button-group {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .button {
-            padding: 8px 15px;
-            margin-left: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
+        .btn {
+            flex: 1;
+            min-width: 120px;
         }
-
-        .button-clear {
-            background-color: #e74c3c;
-            color: white;
-        }
-
-        .button-save {
-            background-color: #2ecc71;
-            color: white;
-        }
-
-        .button:hover {
-            opacity: 0.9;
-        }
-
-        .message {
-            display: none;
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 16px;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .message.success {
-            color: green;
-            opacity: 1;
-            display: block;
-        }
-
-        .message.error {
-            color: red;
-            opacity: 1;
-            display: block;
-        }
-
-
-    </style>
+    }
+</STYLE>
 
     <script>
 
         // Function to validate the delivery date
         function validateForm(event) {
+            const submitter = event.submitter;
+            if (submitter && submitter.name === "action" && submitter.value === "next") {
+                // Skip validation and submit the form
+                return true;
+            }
+
             event.preventDefault();
             const neckField = document.getElementById("neck");
             const chestField = document.getElementById("chest");
@@ -246,6 +320,13 @@
                 showMessage("Delivery date must be after the order date");
                 return false;
             }
+
+            // Create a hidden input to preserve the action value
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'action';
+            hiddenInput.value = submitter.value;
+            event.target.appendChild(hiddenInput);
 
             document.getElementById("shirt-form").submit();
         }
@@ -380,7 +461,7 @@
             <button type="reset" class="btn btn-clear">Clear</button>
             <button type="submit" class="btn btn-save" name="action" value="save">Save</button>
             <button type="submit" class="btn btn-generate" name="action" value="generate">Generate Receipt</button>
-            <button type="button" class="button button-next">Next</button>
+            <button type="button" class="btn btn-next">Next</button>
         </div>
     </form>
 </div>
