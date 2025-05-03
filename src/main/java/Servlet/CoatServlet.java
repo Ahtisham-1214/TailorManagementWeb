@@ -17,7 +17,7 @@ public class CoatServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
             resp.sendRedirect(req.getContextPath() + "/LoginServlet");
             return;
@@ -30,43 +30,59 @@ public class CoatServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        HttpSession session = req.getSession();
+        if (session == null || session.getAttribute("user") == null) {
+            resp.sendRedirect(req.getContextPath() + "/LoginServlet");
+            return;
+        }
+
         String action = req.getParameter("action");
         System.out.println("Received action from Coat: " + action); // Debugging line
 
 
+        try {
 
-        if ("save".equals(action)) {
-            float chest = Float.parseFloat(req.getParameter("chest"));
-            float waist = Float.parseFloat(req.getParameter("waist"));
-            float sleeves = Float.parseFloat(req.getParameter("sleeves"));
-            float shoulder = Float.parseFloat(req.getParameter("shoulder"));
-            byte status = Byte.parseByte(req.getParameter("status"));
-            int quantity = Integer.parseInt(req.getParameter("quantity"));
-            String description = req.getParameter("description");
-            String orderDateStr = req.getParameter("order-date");
-            String deliveryDateStr = req.getParameter("delivery-date");
+            if ("save".equals(action) || "generate".equals(action)) {
+                float chest = Float.parseFloat(req.getParameter("chest"));
+                float waist = Float.parseFloat(req.getParameter("waist"));
+                float sleeves = Float.parseFloat(req.getParameter("sleeves"));
+                float shoulder = Float.parseFloat(req.getParameter("shoulder"));
+                byte status = Byte.parseByte(req.getParameter("status"));
+                int quantity = Integer.parseInt(req.getParameter("quantity"));
+                String description = req.getParameter("description");
+                String orderDateStr = req.getParameter("order-date");
+                String deliveryDateStr = req.getParameter("delivery-date");
 
-            Date orderDate = null;
-            Date deliveryDate = null;
+                Date orderDate = null;
+                Date deliveryDate = null;
 
-            if (orderDateStr != null && !orderDateStr.isEmpty()) {
-                orderDate = java.sql.Date.valueOf(orderDateStr);
+                if (orderDateStr != null && !orderDateStr.isEmpty()) {
+                    orderDate = java.sql.Date.valueOf(orderDateStr);
+                }
+
+                if (deliveryDateStr != null && !deliveryDateStr.isEmpty()) {
+                    deliveryDate = java.sql.Date.valueOf(deliveryDateStr);
+                }
+
+                new Order().addCoatToOrder(
+                        new Coat(chest, waist, sleeves, shoulder, status, description, quantity, orderDate, deliveryDate));
+
+            } if ("generate".equals(action)) {
+                System.out.println("Redirecting to Receipt Servlet from Coat Servlet"); // debugging
+                resp.sendRedirect(req.getContextPath() + "/ReceiptServlet");
+
+            } else if ("next".equals(action)) {
+                resp.sendRedirect(req.getContextPath() + "/PantServlet");
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/CoatServlet"); // PRG Pattern
+
             }
-
-            if (deliveryDateStr != null && !deliveryDateStr.isEmpty()) {
-                deliveryDate = java.sql.Date.valueOf(deliveryDateStr);
-            }
-
-            new Order().addCoatToOrder(
-                    new Coat(chest, waist, sleeves, shoulder, status, description, quantity, orderDate, deliveryDate));
-            resp.sendRedirect(req.getContextPath() + "/CoatServlet"); // PRG Pattern
-
-        } else if ("generate".equals(action)) {
-            System.out.println("Redirecting to Receipt Servlet for Coat Servlet"); // debugging
-            resp.sendRedirect(req.getContextPath() + "/ReceiptServlet");
-
-        } else if ("next".equals(action)) {
-            resp.sendRedirect(req.getContextPath() + "/PantServlet");
+        } catch (NumberFormatException e) {
+            req.setAttribute("error", "Invalid number: " + e.getMessage());
+            req.getRequestDispatcher("/WEB-INF/view/Coat.jsp").forward(req, resp);
+        } catch (Exception e) {
+            req.setAttribute("error", "Error: " + e.getMessage());
+            req.getRequestDispatcher("/WEB-INF/view/Coat.jsp").forward(req, resp);
         }
 
     }
