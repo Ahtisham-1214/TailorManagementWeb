@@ -5,7 +5,7 @@
   Time: 10:14 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%
     if (session == null || session.getAttribute("user") == null) {
         response.sendRedirect("LoginServlet");
@@ -275,7 +275,7 @@
             hiddenInput.value = submitter.value;
             event.target.appendChild(hiddenInput);
             // After validation passes, submit the form manually
-            document.getElementById("coatForm").submit();
+            document.getElementById("coat-form").submit();
             
         }
     </script>
@@ -291,7 +291,7 @@
         <%= (message != null) ? message : "" %>
     </div>
 
-    <form id="coatForm" onsubmit="return validateForm(event)" action="CoatServlet" method="post">
+    <form id="coat-form" onsubmit="return validateForm(event)" action="CoatServlet" method="post">
         <div class="form-section">
             <div class="measurements-grid">
                 <div class="form-group">
