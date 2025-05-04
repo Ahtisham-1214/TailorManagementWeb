@@ -42,7 +42,7 @@ public class ShirtServlet extends HttpServlet {
 
         try {
 
-            if ("save".equals(action) || "generate".equals(action)) {
+            if ("save".equals(action)) {
 
                 float neck = Float.parseFloat(req.getParameter("neck"));
                 float chest = Float.parseFloat(req.getParameter("chest"));
@@ -75,6 +75,9 @@ public class ShirtServlet extends HttpServlet {
                 new Order().addShirtToOrder(shirt);
 
                 setAttributes(session, req);
+                req.setAttribute("message", "Shirt saved successfully");
+                req.getRequestDispatcher("/WEB-INF/view/Shirt.jsp").forward(req, resp);
+                return;
             }
             if ("next".equals(action)) {
                 resp.sendRedirect(req.getContextPath() + "/KameezShalwaarServlet");
@@ -87,10 +90,10 @@ public class ShirtServlet extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/ShirtServlet");
             }
         } catch (NumberFormatException e) {
-            req.setAttribute("error", "Invalid number: " + e.getMessage());
+            req.setAttribute("message", "Invalid number: " + e.getMessage());
             req.getRequestDispatcher("/WEB-INF/view/Shirt.jsp").forward(req, resp);
         } catch (Exception e) {
-            req.setAttribute("error", "Error: " + e.getMessage());
+            req.setAttribute("message", "Error: " + e.getMessage());
             req.getRequestDispatcher("/WEB-INF/view/Shirt.jsp").forward(req, resp);
         }
 

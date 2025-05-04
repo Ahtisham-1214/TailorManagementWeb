@@ -42,7 +42,7 @@ public class CoatServlet extends HttpServlet {
 
         try {
 
-            if ("save".equals(action) || "generate".equals(action)) {
+            if ("save".equals(action)) {
                 float chest = Float.parseFloat(req.getParameter("chest"));
                 float waist = Float.parseFloat(req.getParameter("waist"));
                 float sleeves = Float.parseFloat(req.getParameter("sleeves"));
@@ -67,7 +67,12 @@ public class CoatServlet extends HttpServlet {
                 new Order().addCoatToOrder(
                         new Coat(chest, waist, sleeves, shoulder, status, description, quantity, orderDate, deliveryDate));
 
-            } if ("generate".equals(action)) {
+                req.setAttribute("message", "Coat saved successfully");
+                req.getRequestDispatcher("/WEB-INF/view/Coat.jsp").forward(req, resp);
+                return;
+
+            }
+            if ("generate".equals(action)) {
                 System.out.println("Redirecting to Receipt Servlet from Coat Servlet"); // debugging
                 resp.sendRedirect(req.getContextPath() + "/ReceiptServlet");
 
@@ -78,10 +83,10 @@ public class CoatServlet extends HttpServlet {
 
             }
         } catch (NumberFormatException e) {
-            req.setAttribute("error", "Invalid number: " + e.getMessage());
+            req.setAttribute("message", "Invalid number: " + e.getMessage());
             req.getRequestDispatcher("/WEB-INF/view/Coat.jsp").forward(req, resp);
         } catch (Exception e) {
-            req.setAttribute("error", "Error: " + e.getMessage());
+            req.setAttribute("message", "Error: " + e.getMessage());
             req.getRequestDispatcher("/WEB-INF/view/Coat.jsp").forward(req, resp);
         }
 

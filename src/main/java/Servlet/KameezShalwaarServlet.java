@@ -39,7 +39,7 @@ public class KameezShalwaarServlet extends HttpServlet {
         System.out.println("Received action from Kameez Shalwaar: " + action); // Debugging line
 
         try {
-            if ("save".equals(action) || "generate".equals(action)) {
+            if ("save".equals(action)) {
                 float kameezLength = Float.parseFloat(req.getParameter("kameez-length"));
                 float chest = Float.parseFloat(req.getParameter("chest"));
                 float sleeveLength = Float.parseFloat(req.getParameter("sleeve-length"));
@@ -75,6 +75,10 @@ public class KameezShalwaarServlet extends HttpServlet {
 
                 new Order().addKameezShalwaarToOrder(kameezShalwaar);
                 setAttributes(session, req);
+
+                req.setAttribute("message", "Kameez Shalwaar saved successfully");
+                req.getRequestDispatcher("/WEB-INF/view/KameezShalwaar.jsp").forward(req, resp);
+                return;
             }
 
 

@@ -36,7 +36,7 @@ public class PantServlet extends HttpServlet {
 
         try {
 
-            if ("save".equals(action) || "generate".equals(action)) {
+            if ("save".equals(action)) {
                 // Save form data to session or pass to ReceiptServlet
                 float waist = Float.parseFloat(req.getParameter("waist"));
                 float length = Float.parseFloat(req.getParameter("length"));
@@ -65,6 +65,10 @@ public class PantServlet extends HttpServlet {
 
                 setAttributes(session, req);
 
+                req.setAttribute("message", "Pant saved successfully");
+                req.getRequestDispatcher("/WEB-INF/view/Pant.jsp").forward(req, resp);
+                return;
+
             }
             if ("generate".equals(action)) {
                 // Save form data to session or pass to ReceiptServlet
@@ -77,10 +81,10 @@ public class PantServlet extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/PantServlet");
             }
         } catch (NumberFormatException e) {
-            req.setAttribute("error", "Invalid number: " + e.getMessage());
+            req.setAttribute("message", "Invalid number: " + e.getMessage());
             req.getRequestDispatcher("/WEB-INF/view/Pant.jsp").forward(req, resp);
         } catch (Exception e) {
-            req.setAttribute("error", "Error: " + e.getMessage());
+            req.setAttribute("message", "Error: " + e.getMessage());
             req.getRequestDispatcher("/WEB-INF/view/Pant.jsp").forward(req, resp);
         }
     }
