@@ -461,7 +461,7 @@
             <button type="reset" class="btn btn-clear">Clear</button>
             <button type="submit" class="btn btn-save" name="action" value="save">Save</button>
             <button type="submit" class="btn btn-generate" name="action" value="generate">Generate Receipt</button>
-            <button type="button" class="btn btn-next">Next</button>
+            <button type="submit" class="btn btn-next" name="action" value="next" formnovalidate>Next</button>
         </div>
     </form>
 </div>
