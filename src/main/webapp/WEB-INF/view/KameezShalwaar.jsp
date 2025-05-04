@@ -151,8 +151,8 @@
             color: white;
         }
 
-        .btn-generate{
-            background-color: #2ecc71 ;
+        .btn-generate {
+            background-color: #2ecc71;
             color: white;
         }
 
@@ -195,18 +195,25 @@
 
     <script>
         function validateForm(event) {
+
+            const submitter = event.submitter;
+            if (submitter && submitter.name === "action" && submitter.value === "next") {
+                // Skip validation and submit the form
+                return true;
+            }
+
             event.preventDefault();
 
             const message = document.getElementById("message");
 
             const fields = [
-                { id: "kameez-length", label: "Kameez Length" },
-                { id: "chest", label: "Chest" },
-                { id: "sleeve-length", label: "Sleeve Length" },
-                { id: "shoulder", label: "Shoulder" },
-                { id: "neck", label: "Neck" },
-                { id: "shalwar-length", label: "Shalwar Length" },
-                { id: "shalwar-ankle", label: "Shalwar Ankle" }
+                {id: "kameez-length", label: "Kameez Length"},
+                {id: "chest", label: "Chest"},
+                {id: "sleeve-length", label: "Sleeve Length"},
+                {id: "shoulder", label: "Shoulder"},
+                {id: "neck", label: "Neck"},
+                {id: "trouser-length", label: "Trouser Length"},
+                {id: "trouser-ankle", label: "Trouser Ankle"}
             ];
 
             if (message) {
@@ -216,7 +223,7 @@
             function showMessage(text, type = "error") {
                 if (message) {
                     message.textContent = text;
-                    message.className = "message " + type + " show";
+                    message.className = "message " + type;
                     message.style.display = "block";
                 }
             }
@@ -249,8 +256,15 @@
                 return false;
             }
 
+
+            // Create a hidden input to preserve the action value
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'action';
+            hiddenInput.value = submitter.value;
+            event.target.appendChild(hiddenInput);
             // All validations passed, submit the form
-            document.getElementById("kameezShalwaarForm").submit();
+            document.getElementById("kameez-shalwaar-form").submit();
         }
 
     </script>
@@ -262,7 +276,7 @@
     <div id="message" class="message <%=
     (message != null && !message.isEmpty())
     ? (message.toLowerCase().contains("success") ? "success" : "error")
-    : ""%>" >
+    : ""%>">
         <%= (message != null) ? message : "" %>
     </div>
 
@@ -273,37 +287,36 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="kameez-length">Kameez Length</label>
-                    <input type="text" id="kameez-length" placeholder="Measurements in inches" required>
+                    <input type="text" id="kameez-length" name="kameez-length" placeholder="Measurements in inches" required>
                 </div>
 
                 <div class="form-group">
                     <label for="chest">Chest</label>
-                    <input type="text" id="chest" placeholder="Measurements in inches" required>
+                    <input type="text" id="chest" name="chest" placeholder="Measurements in inches" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="sleeve-length">Sleeve Length</label>
-                    <input type="text" id="sleeve-length" placeholder="Measurements in inches" required>
+                    <input type="text" id="sleeve-length" name="sleeve-length" placeholder="Measurements in inches" required>
                 </div>
                 <div class="form-group">
                     <label for="shoulder">Shoulder</label>
-                    <input type="text" id="shoulder" placeholder="Measurements in inches" required>
+                    <input type="text" id="shoulder" name="shoulder" placeholder="Measurements in inches" required>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="neck">Neck</label>
-                    <input type="text" id="neck" placeholder="Measurements in inches" required>
+                    <input type="text" id="neck" name="neck" placeholder="Measurements in inches" required>
                 </div>
                 <div class="form-group">
                     <label for="cuff-type">Cuff Type</label>
-                    <select id="cuff-type" required>
+                    <select id="cuff-type" name="cuff-type" required>
                         <option disabled selected hidden>Select Cuff Type</option>
-                        <option value="round">Round</option>
-                        <option value="square">Square</option>
-                        <option value="angled">Angled</option>
+                        <option value="1">Round</option>
+                        <option value="2">Square</option>
                     </select>
                 </div>
 
@@ -311,21 +324,20 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="kameez-type">Kameez Type</label>
-                    <select id="kameez-type" required>
+                    <select id="kameez-type" name="kameez-type" required>
                         <option disabled selected hidden>Select Kameez Type</option>
-                        <option value="straight">Straight</option>
-                        <option value="a-line">A-Line</option>
-                        <option value="angrakha">Angrakha</option>
+                        <option value="1">Square</option>
+                        <option value="2">Oval</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="collar-type">Collar Type</label>
-                    <select id="collar-type" required>
+                    <select id="collar-type" name="collar-type" required>
                         <option disabled selected hidden>Select Collar Type</option>
-                        <option value="round">Round</option>
-                        <option value="mandarin">Mandarin</option>
-                        <option value="v-neck">V-Neck</option>
+                        <option value="1">French</option>
+                        <option value="2">Sherwani</option>
+                        <option value="3">Cooper</option>
                     </select>
                 </div>
 
@@ -333,25 +345,24 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="shalwar-length">Shalwar Length</label>
-                    <input type="text" id="shalwar-length" placeholder="Measurements in inches" required>
+                    <label for="trouser-length">Trouser Length</label>
+                    <input type="text" id="trouser-length" name="trouser-length" placeholder="Measurements in inches" required>
                 </div>
 
 
                 <div class="form-group">
-                    <label for="shalwar-ankle">Shalwar Ankle</label>
-                    <input type="text" id="shalwar-ankle" placeholder="Measurements in inches" required>
+                    <label for="trouser-ankle">Trouser Ankle</label>
+                    <input type="text" id="trouser-ankle" name="trouser-ankle" placeholder="Measurements in inches" required>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="shalwar-type">Shalwar Type</label>
-                    <select id="shalwar-type" style="width: 44%;" required>
-                        <option disabled selected hidden>Select Shalwar Type</option>
-                        <option value="regular">Regular</option>
-                        <option value="patiala">Patiala</option>
-                        <option value="churidar">Churidar</option>
+                    <label for="trouser-type">Trouser Type</label>
+                    <select id="trouser-type" name="trouser-type" style="width: 44%;" required>
+                        <option disabled selected hidden>Select Trouser Type</option>
+                        <option value="1">Shalwaar</option>
+                        <option value="2">Pajama</option>
                     </select>
                 </div>
 
@@ -366,15 +377,16 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="quantity">Quantity</label>
-                    <input type="number" id="quantity" min="1" value="1" placeholder="Enter Quantity" required>
+                    <input type="number" id="quantity" name="quantity" min="1" value="1" placeholder="Enter Quantity" required>
                 </div>
                 <div class="form-group">
                     <label for="status">Status</label>
-                    <select id="status">
+                    <select id="status" name="status">
                         <option disabled selected hidden>Select Status</option>
-                        <option value="pending">Pending</option>
-                        <option value="in-progress">In Progress</option>
-                        <option value="completed">Completed</option>
+                        <option value="1">Pending</option>
+                        <option value="2">In Progress</option>
+                        <option value="3">Completed</option>
+                        <option value="4">Delivered</option>
                     </select>
                 </div>
             </div>
@@ -395,8 +407,8 @@
             <div class="section-title">Additional Information</div>
             <div class="form-row">
                 <div class="form-group">
-                    <label for="instructions">Special Instructions</label>
-                    <textarea id="instructions" placeholder="Enter any special instructions here..."></textarea>
+                    <label for="description">Special Instructions</label>
+                    <textarea id="description" name="description" placeholder="Enter any special instructions here..."></textarea>
                 </div>
             </div>
         </div>
@@ -405,7 +417,7 @@
         <div class="form-section">
             <div class="action-buttons">
                 <button class="btn btn-clear" type="reset">Clear</button>
-                <button class="btn btn-save" type="submit">Save</button>
+                <button class="btn btn-save" name="action" type="submit" value="save">Save</button>
                 <button class="btn btn-generate" name="action" type="submit" value="generate">Generate Receipt</button>
 
             </div>
