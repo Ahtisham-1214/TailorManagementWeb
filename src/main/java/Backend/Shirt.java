@@ -113,7 +113,7 @@ public class Shirt implements Measurement {
 
     public void setOrderDate(Date orderDate) {
         if (orderDate == null) {
-            System.out.println("Order Date for Coat was null but set today date");
+            System.out.println("Order Date for Shirt was null but set today date");
             this.orderDate = java.sql.Date.valueOf(java.time.LocalDate.now());
         } else
             this.orderDate = orderDate;
@@ -122,7 +122,7 @@ public class Shirt implements Measurement {
     public void setDeliveryDate(Date deliveryDate) {
         if (deliveryDate == null) {
             this.deliveryDate = java.sql.Date.valueOf(java.time.LocalDate.now().plusDays(7));
-            System.out.println("Delivery Date for Coat was null but set to " +
+            System.out.println("Delivery Date for Shirt was null but set to " +
                     this.getDeliveryDate());
         } else
             this.deliveryDate = deliveryDate;
