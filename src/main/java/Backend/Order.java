@@ -10,11 +10,11 @@ public class Order {
 //        orders = new LinkedList<>();
     }
 
-    public LinkedList<Customer> getOrders() {
+    private LinkedList<Customer> getOrders() {
         return orders;
     }
 
-    public void setOrders(LinkedList<Customer> orders) {
+    private void setOrders(LinkedList<Customer> orders) {
         Order.orders = orders;
     }
 
