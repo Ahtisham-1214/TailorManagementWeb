@@ -50,7 +50,7 @@ public class Receipt {
 
 
     private int getCoatQuantity() {
-        LinkedList<Coat> coats = order.getOrders().getFirst().getCoats();
+        LinkedList<Coat> coats = order.getOrders().get(Order.getPointer()).getCoats();
         int coatQuantity = 0;
         for (Coat coat : coats) {
             coatQuantity += coat.getQuantity();
@@ -59,7 +59,7 @@ public class Receipt {
     }
 
     private int getShirtQuantity() {
-        LinkedList<Shirt> shirts = order.getOrders().getFirst().getShirts();
+        LinkedList<Shirt> shirts = order.getOrders().get(Order.getPointer()).getShirts();
         int shirtQuantity = 0;
         for (Shirt shirt : shirts) {
             shirtQuantity += shirt.getQuantity();
@@ -68,7 +68,7 @@ public class Receipt {
     }
 
     private int getPantQuantity() {
-        LinkedList<Pant> pants = order.getOrders().getFirst().getPants();
+        LinkedList<Pant> pants = order.getOrders().get(Order.getPointer()).getPants();
         int pantQuantity = 0;
         for (Pant pant : pants) {
             pantQuantity += pant.getQuantity();
@@ -77,7 +77,7 @@ public class Receipt {
     }
 
     private int getKameezShalwaarQuantity() {
-        LinkedList<KameezShalwaar> kameezShalwaars = order.getOrders().getFirst().getKameezShalwaars();
+        LinkedList<KameezShalwaar> kameezShalwaars = order.getOrders().get(Order.getPointer()).getKameezShalwaars();
         int kameezShalwaarQuantity = 0;
 
         for (KameezShalwaar kameezShalwaar : kameezShalwaars) {
