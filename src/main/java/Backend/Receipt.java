@@ -14,6 +14,7 @@ public class Receipt {
     private String shopPhone;
     private String shopEmail;
     private String customerName;
+    private final Customer customer;
 
     public Receipt() {
 
@@ -21,14 +22,15 @@ public class Receipt {
         prices = new Prices();
         items = new LinkedList<>();
         order = new Order();
+        customer = order.getCustomer();
 
         this.setShopAddress(shopDetails.getAddress());
         this.setShopName(shopDetails.getName());
         this.setShopPhone(shopDetails.getPhone());
         this.setShopEmail(shopDetails.getEmail());
 
-        if (order.getCustomerName() != null) {
-            this.setCustomerName(order.getCustomerName());
+        if (customer != null) {
+            this.setCustomerName(customer.getName());
 
             if (getCoatQuantity() > 0)
                 items.add(new Item("Coat", getCoatQuantity(), prices.getCoatPrice()));
@@ -50,37 +52,38 @@ public class Receipt {
 
 
     private int getCoatQuantity() {
-        LinkedList<Coat> coats = order.getOrders().get(Order.getPointer()).getCoats();
+//        LinkedList<Coat> coats = order.getOrders().get(Order.getPointer()).getCoats(); //Previous approach,
+//        it was good but hence this approach proved I'm a programmer
         int coatQuantity = 0;
-        for (Coat coat : coats) {
+        for (Coat coat : customer.getCoats()) {
             coatQuantity += coat.getQuantity();
         }
         return coatQuantity;
     }
 
     private int getShirtQuantity() {
-        LinkedList<Shirt> shirts = order.getOrders().get(Order.getPointer()).getShirts();
+//        LinkedList<Shirt> shirts = order.getOrders().get(Order.getPointer()).getShirts();
         int shirtQuantity = 0;
-        for (Shirt shirt : shirts) {
+        for (Shirt shirt : customer.getShirts()) {
             shirtQuantity += shirt.getQuantity();
         }
         return shirtQuantity;
     }
 
     private int getPantQuantity() {
-        LinkedList<Pant> pants = order.getOrders().get(Order.getPointer()).getPants();
+//        LinkedList<Pant> pants = order.getOrders().get(Order.getPointer()).getPants();
         int pantQuantity = 0;
-        for (Pant pant : pants) {
+        for (Pant pant : customer.getPants()) {
             pantQuantity += pant.getQuantity();
         }
         return pantQuantity;
     }
 
     private int getKameezShalwaarQuantity() {
-        LinkedList<KameezShalwaar> kameezShalwaars = order.getOrders().get(Order.getPointer()).getKameezShalwaars();
+//        LinkedList<KameezShalwaar> kameezShalwaars = order.getOrders().get(Order.getPointer()).getKameezShalwaars();
         int kameezShalwaarQuantity = 0;
 
-        for (KameezShalwaar kameezShalwaar : kameezShalwaars) {
+        for (KameezShalwaar kameezShalwaar : customer.getKameezShalwaars()) {
             kameezShalwaarQuantity += kameezShalwaar.getQuantity();
         }
         return kameezShalwaarQuantity;
