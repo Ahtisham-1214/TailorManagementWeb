@@ -76,7 +76,7 @@ public class CustomerServlet extends HttpServlet {
 
 
         try {
-            new Order().getOrders().add(new Customer(name, phone));
+            new Order().addOrder(new Customer(name, phone));
             session.setAttribute("message", "Customer added successfully");
             session.setAttribute(Customer_ADDED_SESSION_KEY, "true");
             // Clear values on success
