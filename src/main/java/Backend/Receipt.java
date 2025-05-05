@@ -8,13 +8,16 @@ public class Receipt {
     private Order order;
     private LinkedList<Item> items;
     private Prices prices;
+    private final Customer customer;
 
     private String shopName;
     private String shopAddress;
     private String shopPhone;
     private String shopEmail;
     private String customerName;
-    private final Customer customer;
+    private float subTotal;
+    private float tax;
+    private float total;
 
     public Receipt() {
 
@@ -24,6 +27,10 @@ public class Receipt {
         order = new Order();
         customer = order.getCustomer();
 
+        subTotal = 0;
+        tax = 0;
+        total = 0;
+
         this.setShopAddress(shopDetails.getAddress());
         this.setShopName(shopDetails.getName());
         this.setShopPhone(shopDetails.getPhone());
@@ -32,19 +39,27 @@ public class Receipt {
         if (customer != null) {
             this.setCustomerName(customer.getName());
 
-            if (getCoatQuantity() > 0)
+            if (getCoatQuantity() > 0) {
                 items.add(new Item("Coat", getCoatQuantity(), prices.getCoatPrice()));
-
-            if (getPantQuantity() > 0)
+                this.setSubTotal(getCoatQuantity() * prices.getCoatPrice());
+                total = subTotal;
+            }
+            if (getPantQuantity() > 0) {
                 items.add(new Item("Pant", getPantQuantity(), prices.getPantPrice()));
+                this.setSubTotal(getPantQuantity() * prices.getPantPrice());
+                total = subTotal;
+            }
 
-
-            if (getShirtQuantity() > 0)
+            if (getShirtQuantity() > 0) {
                 items.add(new Item("Shirt", getShirtQuantity(), prices.getShirtPrice()));
-
-            if (getKameezShalwaarQuantity() > 0)
+                this.setSubTotal(getShirtQuantity() * prices.getShirtPrice());
+                total = subTotal;
+            }
+            if (getKameezShalwaarQuantity() > 0) {
                 items.add(new Item("Kameez Shalwaar", getKameezShalwaarQuantity(), prices.getKameezShalwaarPrice()));
-
+                this.setSubTotal(getKameezShalwaarQuantity() * prices.getKameezShalwaarPrice());
+                total = subTotal;
+            }
         }
 
 
@@ -131,5 +146,21 @@ public class Receipt {
 
     private void setCustomerName(String customerName) {
         this.customerName = customerName;
+    }
+
+    public float getSubTotal() {
+        return subTotal;
+    }
+
+    public float getTax() {
+        return tax;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public void setSubTotal(float subTotal) {
+        this.subTotal += subTotal;
     }
 }
