@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 public class Order {
     private static LinkedList<Customer> orders = new LinkedList<>();
+    private static int pointer = -1;
 
     public Order() {
 //        orders = new LinkedList<>();
@@ -19,12 +20,13 @@ public class Order {
 
     public void addOrder(Customer customer) {
         this.getOrders().add(customer);
+        Order.pointer++;
     }
 
     public void addCoatToOrder(Coat coat) {
         try {
             if (!this.getOrders().isEmpty()) {
-                this.getOrders().getFirst().getCoats().add(coat);
+                this.getOrders().get(Order.pointer).getCoats().add(coat);
             }
 
         } catch (Exception e) {
@@ -35,7 +37,7 @@ public class Order {
     public void addShirtToOrder(Shirt shirt) {
         try {
             if (!this.getOrders().isEmpty()) {
-                this.getOrders().getFirst().getShirts().add(shirt);
+                this.getOrders().get(Order.pointer).getShirts().add(shirt);
             }
         } catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
@@ -45,7 +47,7 @@ public class Order {
     public void addPantsToOrder(Pant pant) {
         try {
             if (!this.getOrders().isEmpty()) {
-                this.getOrders().getFirst().getPants().add(pant);
+                this.getOrders().get(Order.pointer).getPants().add(pant);
             }
         } catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
@@ -55,20 +57,19 @@ public class Order {
     public void addKameezShalwaarToOrder(KameezShalwaar kameezShalwaar) {
         try {
             if (!this.getOrders().isEmpty()) {
-                this.getOrders().getFirst().getKameezShalwaars().add(kameezShalwaar);
+                this.getOrders().get(Order.pointer).getKameezShalwaars().add(kameezShalwaar);
             }
         } catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
 
-    public String getCustomerName() {
+    public Customer getCustomer() {
         if (!this.getOrders().isEmpty()) {
-            return this.getOrders().getFirst().getName();
+            return this.getOrders().get(Order.pointer);
         }else {
             return null;
         }
     }
-
 
 }
