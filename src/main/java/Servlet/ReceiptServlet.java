@@ -37,6 +37,9 @@ public class ReceiptServlet extends HttpServlet {
 
         request.setAttribute("customerName", receipt.getCustomerName());
         request.setAttribute("items", receipt.getItems());
+        request.setAttribute("subTotal", receipt.getSubTotal());
+        request.setAttribute("tax", receipt.getTax());
+        request.setAttribute("total", receipt.getTotal());
 
         request.getRequestDispatcher("/WEB-INF/view/Receipt.jsp").forward(request, response);
     }
