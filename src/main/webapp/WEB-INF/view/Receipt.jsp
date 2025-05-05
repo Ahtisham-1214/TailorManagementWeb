@@ -136,9 +136,9 @@
 </table>
 
 <div class="total">
-    Subtotal: $525.00<br>
-    Tax (10%): $52.50<br>
-    <span style="font-size: 20px;">Total: $577.50</span><br>
+    Subtotal: ${subTotal}<br>
+    Tax (10%): ${tax}<br>
+    <span style="font-size: 20px;">Total: ${total}</span><br>
     <span style="color: green;">Payment Received: $577.50</span>
 </div>
 
