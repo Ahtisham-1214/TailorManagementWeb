@@ -4,10 +4,7 @@ import java.util.LinkedList;
 
 
 public class Receipt {
-    private ShopDetails shopDetails;
-    private Order order;
-    private LinkedList<Item> items;
-    private Prices prices;
+    private final LinkedList<Item> items;
     private final Customer customer;
 
     private String shopName;
@@ -21,10 +18,10 @@ public class Receipt {
 
     public Receipt() {
 
-        shopDetails = new ShopDetails();
-        prices = new Prices();
+        ShopDetails shopDetails = new ShopDetails();
+        Prices prices = new Prices();
         items = new LinkedList<>();
-        order = new Order();
+        Order order = new Order();
         customer = order.getCustomer();
 
         subTotal = 0;
@@ -42,25 +39,23 @@ public class Receipt {
             if (getCoatQuantity() > 0) {
                 items.add(new Item("Coat", getCoatQuantity(), prices.getCoatPrice()));
                 this.setSubTotal(getCoatQuantity() * prices.getCoatPrice());
-                total = subTotal;
             }
             if (getPantQuantity() > 0) {
                 items.add(new Item("Pant", getPantQuantity(), prices.getPantPrice()));
                 this.setSubTotal(getPantQuantity() * prices.getPantPrice());
-                total = subTotal;
             }
 
             if (getShirtQuantity() > 0) {
                 items.add(new Item("Shirt", getShirtQuantity(), prices.getShirtPrice()));
                 this.setSubTotal(getShirtQuantity() * prices.getShirtPrice());
-                total = subTotal;
             }
             if (getKameezShalwaarQuantity() > 0) {
                 items.add(new Item("Kameez Shalwaar", getKameezShalwaarQuantity(), prices.getKameezShalwaarPrice()));
                 this.setSubTotal(getKameezShalwaarQuantity() * prices.getKameezShalwaarPrice());
-                total = subTotal;
             }
         }
+
+        this.setTotal(this.getSubTotal());
 
 
     }
@@ -160,7 +155,11 @@ public class Receipt {
         return total;
     }
 
-    public void setSubTotal(float subTotal) {
+    private void setSubTotal(float subTotal) {
         this.subTotal += subTotal;
+    }
+
+    private void setTotal(float total) {
+        this.total += total;
     }
 }
