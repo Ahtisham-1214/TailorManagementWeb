@@ -60,6 +60,14 @@
             border-bottom: 1px solid var(--border-color);
         }
 
+        .section-title {
+            color: var(--secondary-color);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
         .measurements-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -292,6 +300,8 @@
 
     <form id="pant-form" onsubmit="return validateForm(event)" action="PantServlet" method="post">
         <div class="form-section">
+            <h2 class="section-title">Measurements</h2>
+
             <div class="measurements-grid">
                 <div class="form-group">
                     <label for="waist">Waist</label>
@@ -332,6 +342,7 @@
         </div>
 
         <div class="form-section">
+            <h2 class="section-title">Order Details</h2>
             <div class="date-selectors">
                 <div class="form-group date-selector">
                     <label for="order-date">Order Date</label>
@@ -345,6 +356,7 @@
         </div>
 
         <div class="form-section">
+            <h2 class="section-title">Additional Information</h2>
             <div class="form-group">
                 <label for="description">Description</label>
                 <textarea id="description" name="description" placeholder="Additional notes about the pants"></textarea>
