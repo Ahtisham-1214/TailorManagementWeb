@@ -4,6 +4,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import Backend.Customer;
 import Backend.Order;
@@ -86,6 +87,8 @@ public class CustomerServlet extends HttpServlet {
             session.setAttribute("message", e.getMessage());
             response.sendRedirect("CustomerServlet");
             return;
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
         }
 
         response.sendRedirect("CustomerServlet"); // PRG pattern
