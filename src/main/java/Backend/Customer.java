@@ -1,6 +1,9 @@
 package Backend;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
+
+import Database.CustomerDatabase;
 
 public class Customer {
     private String name;
@@ -9,6 +12,7 @@ public class Customer {
     private LinkedList<Shirt> shirts;
     private LinkedList<Coat> coats;
     private LinkedList<KameezShalwaar> kameezShalwaars;
+    private CustomerDatabase customerDatabase;
 
     @Override
     public String toString() {
@@ -35,11 +39,12 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    public Customer(String name, String phoneNumber) {
+    public Customer(String name, String phoneNumber) throws SQLException {
         this();
         this.setName(name);
         this.setPhoneNumber(phoneNumber);
         System.out.println("Customer " + name + " has been created"); // for debugging
+        this.customerDatabase = new CustomerDatabase(this.getName(), this.getPhoneNumber());
     }
 
     public String getName() {
