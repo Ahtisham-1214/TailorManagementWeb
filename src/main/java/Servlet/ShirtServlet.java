@@ -69,10 +69,11 @@ public class ShirtServlet extends HttpServlet {
                     deliveryDate = java.sql.Date.valueOf(deliveryDateStr);
                 }
 
+                Order order = new Order();
                 Shirt shirt = new Shirt(chest, sleeveLength, shirtLength, shoulder,
-                        neck, collarType, cuffType, status, description, quantity, orderDate, deliveryDate);
+                        neck, collarType, cuffType, status, description, quantity, orderDate, deliveryDate, order.getCustomer().getPhoneNumber());
 
-                new Order().addShirtToOrder(shirt);
+                order.addShirtToOrder(shirt);
 
                 setAttributes(session, req);
                 req.setAttribute("message", "Shirt saved successfully");
