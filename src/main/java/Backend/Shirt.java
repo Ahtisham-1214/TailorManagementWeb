@@ -1,5 +1,8 @@
 package Backend;
 
+import Database.ShirtDatabase;
+
+import java.sql.SQLException;
 import java.util.Date;
 
 public class Shirt implements Measurement {
@@ -18,7 +21,7 @@ public class Shirt implements Measurement {
 
     public Shirt(float chest, float sleeveLength, float shirtLength, float shoulder,
                  float neck, byte collarType, byte cuffType, byte status, String description,
-                 int quantity, Date orderDate, Date deliveryDate) {
+                 int quantity, Date orderDate, Date deliveryDate, String phoneNumber) throws SQLException {
         this.setChest(chest);
         this.setSleeveLength(sleeveLength);
         this.setShirtLength(shirtLength);
@@ -31,22 +34,25 @@ public class Shirt implements Measurement {
         this.setQuantity(quantity);
         this.setOrderDate(orderDate);
         this.setDeliveryDate(deliveryDate);
+        new ShirtDatabase(this.getChest(), this.getSleeveLength(), this.getShirtLength(),
+                this.getShoulder(), this.getNeck(), this.getCollarType(), this.getCuffType(), this.getStatus(),
+                this.getDescription(), this.getQuantity(), this.getOrderDate(), this.getDeliveryDate(), phoneNumber);
 
     }
 
 
     public void setChest(float chest) {
-        if (chest < 1){
+        if (chest < 1) {
             throw new IllegalArgumentException("Chest must be greater than 0");
-        }else{
+        } else {
             this.chest = chest;
         }
     }
 
     public void setSleeveLength(float sleeveLength) {
-        if(sleeveLength < 1){
+        if (sleeveLength < 1) {
             throw new IllegalArgumentException("sleeveLength must be greater than 0");
-        }else{
+        } else {
             this.sleeveLength = sleeveLength;
         }
     }
@@ -54,23 +60,23 @@ public class Shirt implements Measurement {
     public void setShirtLength(float shirtLength) {
         if (shirtLength < 1) {
             throw new IllegalArgumentException("Shirt length must be greater than 0");
-        }else{
+        } else {
             this.shirtLength = shirtLength;
         }
     }
 
     public void setShoulder(float shoulder) {
-        if (shoulder < 1){
+        if (shoulder < 1) {
             throw new IllegalArgumentException("shoulder must be greater than 0");
-        }else{
+        } else {
             this.shoulder = shoulder;
         }
     }
 
     public void setNeck(float neck) {
-        if (neck < 1){
+        if (neck < 1) {
             throw new IllegalArgumentException("Neck must be greater than 0");
-        }else{
+        } else {
             this.neck = neck;
         }
     }
@@ -78,35 +84,38 @@ public class Shirt implements Measurement {
     public void setStatus(byte status) {
         if (status < 1 || status > 5) {
             throw new IllegalArgumentException("Status must be 1 to 5.");
-        }else{
+        } else {
             this.status = status;
         }
     }
 
     public void setCuffType(byte cuffType) {
-        if (cuffType < 1){
+        if (cuffType < 1) {
             throw new IllegalArgumentException("Invalid cuff Type");
-        }else{
+        } else {
             this.cuffType = cuffType;
         }
     }
 
     public void setCollarType(byte collarType) {
-        if (collarType < 1){
+        if (collarType < 1) {
             throw new IllegalArgumentException("Invalid Collar Type");
-        }else{
+        } else {
             this.collarType = collarType;
         }
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description == null || description.isEmpty()) {
+            this.description = null;
+        } else
+            this.description = description;
     }
 
     public void setQuantity(int quantity) {
-        if (quantity < 1){
+        if (quantity < 1) {
             throw new IllegalArgumentException("Quantity must be greater than 0");
-        }else{
+        } else {
             this.quantity = quantity;
         }
     }
