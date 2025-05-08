@@ -1,7 +1,8 @@
 package Backend;
 
+import java.sql.SQLException;
 import java.util.Date;
-
+import Database.PantDatabase;
 public class Pant implements Measurement {
     private float waist;
     private float length;
@@ -12,9 +13,10 @@ public class Pant implements Measurement {
     private int quantity;
     private Date orderDate;
     private Date deliveryDate;
+    private String phoneNumber;
 
 
-    public Pant(float waist, float length, byte type, float inseam, byte status, String description, int quantity, Date orderDate, Date deliveryDate) {
+    public Pant(float waist, float length, byte type, float inseam, byte status, String description, int quantity, Date orderDate, Date deliveryDate, String phoneNumber) throws SQLException {
         this.setWaist(waist);
         this.setLength(length);
         this.setType(type);
@@ -24,6 +26,13 @@ public class Pant implements Measurement {
         this.setOrderDate(orderDate);
         this.setDeliveryDate(deliveryDate);
         this.setQuantity(quantity);
+        this.setPhoneNumber(phoneNumber);
+        new PantDatabase(this.getWaist(), this.getLength(), this.getType(), this.getInseam(), this.getStatus(),
+                this.getDescription(), this.getQuantity(), this.getOrderDate(), this.getDeliveryDate(), phoneNumber);
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public void setWaist(float waist) {
@@ -59,7 +68,10 @@ public class Pant implements Measurement {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description == null || description.isEmpty()) {
+            this.description = null;
+        }else
+            this.description = description;
     }
 
     public void setQuantity(int quantity) {
@@ -85,6 +97,10 @@ public class Pant implements Measurement {
                     this.getDeliveryDate());
         } else
             this.deliveryDate = deliveryDate;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     public float getWaist() {
