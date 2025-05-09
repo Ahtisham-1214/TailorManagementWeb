@@ -1,5 +1,8 @@
 package Backend;
 
+import Database.KameezShalwaarDatabase;
+
+import java.sql.SQLException;
 import java.util.Date;
 
 public class KameezShalwaar implements Measurement {
@@ -26,7 +29,7 @@ public class KameezShalwaar implements Measurement {
                           float sleevesLength, byte cuffType, byte kameezType,
                           float shoulder, float neck, byte collarType,
                           byte status, String description, int quantity,
-                          Date orderDate, Date deliveryDate) {
+                          Date orderDate, Date deliveryDate, String phoneNumber) throws SQLException {
         this.setCollarType(collarType);
         this.setKameezLength(kameezLength);
         this.setKameezType(kameezType);
@@ -43,6 +46,11 @@ public class KameezShalwaar implements Measurement {
         this.setCuffType(cuffType);
         this.setDeliveryDate(deliveryDate);
         this.setQuantity(quantity);
+
+        new KameezShalwaarDatabase(this.getTrouserLength(), this.getTrouserType(), this.getTrouserAnkle(),
+                this.getKameezLength(), this.getChest(), this.getSleevesLength(), this.getCuffType(), this.getKameezType(),
+                this.getShoulder(), this.getNeck(), this.getCollarType(), this.getStatus(),this.getDescription(),
+                this.getQuantity(), this.getOrderDate(), this.getDeliveryDate(), phoneNumber);
     }
 
     public void setChest(float chest) {
@@ -123,7 +131,10 @@ public class KameezShalwaar implements Measurement {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description == null || description.isEmpty())
+            this.description = null;
+        else
+            this.description = description;
     }
 
     public void setShoulder(float shoulder) {
