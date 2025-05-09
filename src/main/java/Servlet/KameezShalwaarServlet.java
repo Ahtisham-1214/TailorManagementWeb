@@ -69,11 +69,12 @@ public class KameezShalwaarServlet extends HttpServlet {
                     deliveryDate = java.sql.Date.valueOf(deliveryDateStr);
                 }
 
+                Order order = new Order();
                 KameezShalwaar kameezShalwaar = new KameezShalwaar(trouserLength, trouserType,
                         trouserAnkle, kameezLength, chest, sleeveLength, cuffType, kameezType, shoulder,
-                        neck, collarType, status, description, quantity, orderDate, deliveryDate);
+                        neck, collarType, status, description, quantity, orderDate, deliveryDate, order.getCustomer().getPhoneNumber());
 
-                new Order().addKameezShalwaarToOrder(kameezShalwaar);
+                order.addKameezShalwaarToOrder(kameezShalwaar);
                 setAttributes(session, req);
 
                 req.setAttribute("message", "Kameez Shalwaar saved successfully");
