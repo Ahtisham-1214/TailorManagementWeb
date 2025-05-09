@@ -1,5 +1,8 @@
 package Backend;
 
+import Database.CoatDatabase;
+
+import java.sql.SQLException;
 import java.util.Date;
 
 public class Coat implements Measurement {
@@ -14,7 +17,9 @@ public class Coat implements Measurement {
     private Date orderDate;
     private Date deliveryDate;
 
-    public Coat(float chest, float waist, float sleeves, float shoulder, byte status, String description, int quantity, Date orderDate, Date deliveryDate) {
+    public Coat(float chest, float waist, float sleeves,
+                float shoulder, byte status, String description,
+                int quantity, Date orderDate, Date deliveryDate, String phoneNumber) throws SQLException {
         this.setChest(chest);
         this.setWaist(waist);
         this.setSleeves(sleeves);
@@ -24,6 +29,8 @@ public class Coat implements Measurement {
         this.setQuantity(quantity);
         this.setOrderDate(orderDate);
         this.setDeliveryDate(deliveryDate);
+        new CoatDatabase(this.getChest(), this.getWaist(), this.getSleeves(), this.getShoulder(), this.getStatus(),
+                this.getDescription(), this.getQuantity(), this.getOrderDate(), this.getDeliveryDate(), phoneNumber);
     }
 
     public void setChest(float chest) {
@@ -86,7 +93,10 @@ public class Coat implements Measurement {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description == null || description.isEmpty())
+            this.description = null;
+        else
+            this.description = description;
     }
 
     public float getChest() {
@@ -125,7 +135,7 @@ public class Coat implements Measurement {
         return deliveryDate;
     }
 
-    public String getClassName(){
+    public String getClassName() {
         return this.getClass().getSimpleName();
     }
 
