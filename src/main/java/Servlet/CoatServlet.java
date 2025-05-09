@@ -64,8 +64,11 @@ public class CoatServlet extends HttpServlet {
                     deliveryDate = java.sql.Date.valueOf(deliveryDateStr);
                 }
 
-                new Order().addCoatToOrder(
-                        new Coat(chest, waist, sleeves, shoulder, status, description, quantity, orderDate, deliveryDate));
+                Order order = new Order();
+                order.addCoatToOrder(
+                        new Coat(chest, waist, sleeves, shoulder,
+                                status, description, quantity, orderDate,
+                                deliveryDate, order.getCustomer().getPhoneNumber()));
 
                 req.setAttribute("message", "Coat saved successfully");
                 req.getRequestDispatcher("/WEB-INF/view/Coat.jsp").forward(req, resp);
