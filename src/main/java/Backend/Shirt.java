@@ -5,7 +5,7 @@ import Database.ShirtDatabase;
 import java.sql.SQLException;
 import java.util.Date;
 
-public class Shirt implements Measurement {
+public class Shirt extends Measurement {
     private float chest;
     private float sleeveLength;
     private float shirtLength;
@@ -13,15 +13,11 @@ public class Shirt implements Measurement {
     private float neck;
     private byte collarType; // 1 for classic, 2 for standard, 3 for cooper
     private byte cuffType;  // 1 for half sleeves, 2 for Square cuff, 3 for round cuff
-    private byte status; // 1 for pending, 2 for processing, 3 for completed, 4 for delivered
-    private String description;
-    private int quantity;
-    private Date orderDate;
-    private Date deliveryDate;
 
     public Shirt(float chest, float sleeveLength, float shirtLength, float shoulder,
                  float neck, byte collarType, byte cuffType, byte status, String description,
                  int quantity, Date orderDate, Date deliveryDate, String phoneNumber) throws SQLException {
+        super(status, description, quantity, orderDate, deliveryDate);
         this.setChest(chest);
         this.setSleeveLength(sleeveLength);
         this.setShirtLength(shirtLength);
@@ -29,11 +25,6 @@ public class Shirt implements Measurement {
         this.setNeck(neck);
         this.setCollarType(collarType);
         this.setCuffType(cuffType);
-        this.setStatus(status);
-        this.setDescription(description);
-        this.setQuantity(quantity);
-        this.setOrderDate(orderDate);
-        this.setDeliveryDate(deliveryDate);
         new ShirtDatabase(this.getChest(), this.getSleeveLength(), this.getShirtLength(),
                 this.getShoulder(), this.getNeck(), this.getCollarType(), this.getCuffType(), this.getStatus(),
                 this.getDescription(), this.getQuantity(), this.getOrderDate(), this.getDeliveryDate(), phoneNumber);
@@ -81,13 +72,6 @@ public class Shirt implements Measurement {
         }
     }
 
-    public void setStatus(byte status) {
-        if (status < 1 || status > 5) {
-            throw new IllegalArgumentException("Status must be 1 to 5.");
-        } else {
-            this.status = status;
-        }
-    }
 
     public void setCuffType(byte cuffType) {
         if (cuffType < 1) {
@@ -105,37 +89,6 @@ public class Shirt implements Measurement {
         }
     }
 
-    public void setDescription(String description) {
-        if (description == null || description.isEmpty()) {
-            this.description = null;
-        } else
-            this.description = description;
-    }
-
-    public void setQuantity(int quantity) {
-        if (quantity < 1) {
-            throw new IllegalArgumentException("Quantity must be greater than 0");
-        } else {
-            this.quantity = quantity;
-        }
-    }
-
-    public void setOrderDate(Date orderDate) {
-        if (orderDate == null) {
-            System.out.println("Order Date for Shirt was null but set today date");
-            this.orderDate = java.sql.Date.valueOf(java.time.LocalDate.now());
-        } else
-            this.orderDate = orderDate;
-    }
-
-    public void setDeliveryDate(Date deliveryDate) {
-        if (deliveryDate == null) {
-            this.deliveryDate = java.sql.Date.valueOf(java.time.LocalDate.now().plusDays(7));
-            System.out.println("Delivery Date for Shirt was null but set to " +
-                    this.getDeliveryDate());
-        } else
-            this.deliveryDate = deliveryDate;
-    }
 
     public byte getCuffType() {
         return cuffType;
@@ -159,26 +112,6 @@ public class Shirt implements Measurement {
 
     public float getNeck() {
         return neck;
-    }
-
-    public byte getStatus() {
-        return status;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public Date getOrderDate() {
-        return orderDate;
-    }
-
-    public Date getDeliveryDate() {
-        return deliveryDate;
     }
 
     public byte getCollarType() {

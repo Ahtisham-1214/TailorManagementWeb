@@ -3,29 +3,20 @@ package Backend;
 import java.sql.SQLException;
 import java.util.Date;
 import Database.PantDatabase;
-public class Pant implements Measurement {
+public class Pant extends Measurement {
     private float waist;
     private float length;
     private byte type; // 1 for Straight fit, 2 for Cuff
     private float inseam;
-    private byte status; // 1 for pending, 2 for processing, 3 for completed, 4 for delivered
-    private String description;
-    private int quantity;
-    private Date orderDate;
-    private Date deliveryDate;
     private String phoneNumber;
 
 
     public Pant(float waist, float length, byte type, float inseam, byte status, String description, int quantity, Date orderDate, Date deliveryDate, String phoneNumber) throws SQLException {
+        super(status, description, quantity, orderDate, deliveryDate);
         this.setWaist(waist);
         this.setLength(length);
         this.setType(type);
         this.setInseam(inseam);
-        this.setStatus(status);
-        this.setDescription(description);
-        this.setOrderDate(orderDate);
-        this.setDeliveryDate(deliveryDate);
-        this.setQuantity(quantity);
         this.setPhoneNumber(phoneNumber);
         new PantDatabase(this.getWaist(), this.getLength(), this.getType(), this.getInseam(), this.getStatus(),
                 this.getDescription(), this.getQuantity(), this.getOrderDate(), this.getDeliveryDate(), phoneNumber);
@@ -59,45 +50,6 @@ public class Pant implements Measurement {
         }
     }
 
-    public void setStatus(byte status) {
-        if (status < 1 || status > 5) {
-            throw new IllegalArgumentException("Status must be 1 to 5.");
-        } else {
-            this.status = status;
-        }
-    }
-
-    public void setDescription(String description) {
-        if (description == null || description.isEmpty()) {
-            this.description = null;
-        }else
-            this.description = description;
-    }
-
-    public void setQuantity(int quantity) {
-        if (quantity < 1) {
-            throw new IllegalArgumentException("Quantity must be greater than 0");
-        } else {
-            this.quantity = quantity;
-        }
-    }
-
-    public void setOrderDate(Date orderDate) {
-        if (orderDate == null) {
-            System.out.println("Order Date for Pant was null but set today date");
-            this.orderDate = java.sql.Date.valueOf(java.time.LocalDate.now());
-        } else
-            this.orderDate = orderDate;
-    }
-
-    public void setDeliveryDate(Date deliveryDate) {
-        if (deliveryDate == null) {
-            this.deliveryDate = java.sql.Date.valueOf(java.time.LocalDate.now().plusDays(7));
-            System.out.println("Delivery Date for Pant was null but set to " +
-                    this.getDeliveryDate());
-        } else
-            this.deliveryDate = deliveryDate;
-    }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -119,25 +71,6 @@ public class Pant implements Measurement {
         return inseam;
     }
 
-    public byte getStatus() {
-        return status;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public Date getOrderDate() {
-        return orderDate;
-    }
-
-    public Date getDeliveryDate() {
-        return deliveryDate;
-    }
 
     private String getStatusString() {
         return switch (this.getStatus()) {
@@ -157,9 +90,9 @@ public class Pant implements Measurement {
                 "\nType: " + (type == 1 ? "Straight Fit" : "Cuff") +
                 "\nInseam: " + inseam +
                 "\nStatus: " + getStatusString() +
-                "\nDescription: " + description +
-                "\nQuantity: " + quantity +
-                "\nOrder Date: " + orderDate +
-                "\nDelivery Date: " + deliveryDate;
+                "\nDescription: " + this.getDescription() +
+                "\nQuantity: " + this.getQuantity() +
+                "\nOrder Date: " + this.getOrderDate() +
+                "\nDelivery Date: " + this.getDeliveryDate();
     }
 }

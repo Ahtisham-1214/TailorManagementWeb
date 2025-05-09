@@ -5,7 +5,7 @@ import Database.KameezShalwaarDatabase;
 import java.sql.SQLException;
 import java.util.Date;
 
-public class KameezShalwaar implements Measurement {
+public class KameezShalwaar extends Measurement {
     private float trouserLength;
     private byte trouserType; // 1 for Shalwaar 2 for pajama
     private float trouserAnkle;
@@ -18,11 +18,6 @@ public class KameezShalwaar implements Measurement {
     private float neck;
     private float chest;
     private byte collarType; // 1 for Cooper, 2 for french 3 for sherwani
-    private String description;
-    private int quantity;
-    private Date orderDate;
-    private Date deliveryDate;
-    private byte status; // 1 for pending, 2 for progress, 3 for completed, 4 for delivered
 
     public KameezShalwaar(float trouserLength, byte trouserType,
                           float trouserAnkle, float kameezLength, float chest,
@@ -30,22 +25,18 @@ public class KameezShalwaar implements Measurement {
                           float shoulder, float neck, byte collarType,
                           byte status, String description, int quantity,
                           Date orderDate, Date deliveryDate, String phoneNumber) throws SQLException {
+       super(status, description, quantity, orderDate, deliveryDate);
         this.setCollarType(collarType);
         this.setKameezLength(kameezLength);
         this.setKameezType(kameezType);
         this.setNeck(neck);
         this.setChest(chest);
-        this.setDescription(description);
-        this.setOrderDate(orderDate);
         this.setShoulder(shoulder);
-        this.setStatus(status);
         this.setTrouserAnkle(trouserAnkle);
         this.setTrouserLength(trouserLength);
         this.setSleevesLength(sleevesLength);
         this.setTrouserType(trouserType);
         this.setCuffType(cuffType);
-        this.setDeliveryDate(deliveryDate);
-        this.setQuantity(quantity);
 
         new KameezShalwaarDatabase(this.getTrouserLength(), this.getTrouserType(), this.getTrouserAnkle(),
                 this.getKameezLength(), this.getChest(), this.getSleevesLength(), this.getCuffType(), this.getKameezType(),
@@ -60,19 +51,6 @@ public class KameezShalwaar implements Measurement {
         this.chest = chest;
     }
 
-    public void setStatus(byte status) {
-        if (status < 1) {
-            throw new IllegalArgumentException("Status Should be greater than 1");
-        }
-        this.status = status;
-    }
-
-    public void setQuantity(int quantity) {
-        if (quantity < 1) {
-            throw new IllegalArgumentException("Quantity Should at least be 1");
-        }
-        this.quantity = quantity;
-    }
 
     public void setTrouserLength(float trouserLength) {
         if (trouserLength < 1) {
@@ -130,12 +108,6 @@ public class KameezShalwaar implements Measurement {
         this.neck = neck;
     }
 
-    public void setDescription(String description) {
-        if (description == null || description.isEmpty())
-            this.description = null;
-        else
-            this.description = description;
-    }
 
     public void setShoulder(float shoulder) {
         if (shoulder < 1) {
@@ -151,26 +123,6 @@ public class KameezShalwaar implements Measurement {
         this.collarType = collarType;
     }
 
-    public void setOrderDate(Date orderDate) {
-        if (orderDate == null) {
-            System.out.println("Order Date for Kameez Shalwaar was null but set today date");
-            this.orderDate = java.sql.Date.valueOf(java.time.LocalDate.now());
-        } else
-            this.orderDate = orderDate;
-    }
-
-    public void setDeliveryDate(Date deliveryDate) {
-        if (deliveryDate == null) {
-            this.deliveryDate = java.sql.Date.valueOf(java.time.LocalDate.now().plusDays(7));
-            System.out.println("Delivery Date for Kameez Shalwaar was null but set to " +
-                    this.getDeliveryDate());
-        } else
-            this.deliveryDate = deliveryDate;
-    }
-
-    public byte getStatus() {
-        return status;
-    }
 
     public float getTrouserLength() {
         return trouserLength;
@@ -216,22 +168,6 @@ public class KameezShalwaar implements Measurement {
         return collarType;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public Date getOrderDate() {
-        return orderDate;
-    }
-
-    public Date getDeliveryDate() {
-        return deliveryDate;
-    }
-
 
     @Override
     public String toString() {
@@ -246,10 +182,10 @@ public class KameezShalwaar implements Measurement {
                 " shoulder=" + shoulder + "\n" +
                 " neck=" + neck +
                 " collarType=" + (collarType == 1 ? "Cooper" : collarType == 2 ? "French" : "Sherwani") +
-                " description='" + description + '\'' +
-                " quantity=" + quantity + "\n" +
-                " orderDate=" + orderDate +
-                " deliveryDate=" + deliveryDate +
+                " description='" + this.getDescription() + '\'' +
+                " quantity=" + this.getQuantity() + "\n" +
+                " orderDate=" + this.getOrderDate() +
+                " deliveryDate=" + this.getDeliveryDate() +
                 '}';
     }
 }
