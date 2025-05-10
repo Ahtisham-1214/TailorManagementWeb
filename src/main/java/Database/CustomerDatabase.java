@@ -16,7 +16,7 @@ public class CustomerDatabase {
 
     private void insertCustomer(String name, String phone) throws SQLException {
         try {
-            String query = "INSERT INTO customer VALUES (?, ?)";
+            String query = "INSERT INTO customer (name, phone) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setString(2, phone);
