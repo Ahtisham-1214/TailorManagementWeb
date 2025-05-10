@@ -1,0 +1,162 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.save-container {
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e0e0e0;
+    text-align: right;
+}
+
+button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.save-btn {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.save-btn:hover {
+    background-color: #27ae60;
+}
+
+.save-btn:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+.edit-btn {
+    background-color: #3498db;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.edit-btn:hover {
+    background-color: #2980b9;
+}
+
+.rates-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rates-table th,
+.rates-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.rates-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.rates-table tr:last-child td {
+    border-bottom: none;
+}
+
+.rates-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.price-input {
+    width: 80px;
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    text-align: right;
+    background-color: #f5f5f5;
+    pointer-events: none;
+}
+
+.price-input.editable {
+    background-color: white;
+    pointer-events: auto;
+    border-color: #3498db;
+}
+
+.price-input.invalid {
+    border-color: #e74c3c;
+    background-color: #ffebee;
+}
+
+.price-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.changed {
+    background-color: #e8f5e9;
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+.disclaimer {
+    padding: 15px;
+    background-color: #fff8e1;
+    border-top: 1px dashed #ffc107;
+    font-size: 14px;
+    color: #e65100;
+}
+
+.footer {
+    padding: 15px;
+    text-align: center;
+    background-color: #f8f9fa;
+    color: #7f8c8d;
+    font-size: 12px;
+}
+
+@media (max-width: 600px) {
+
+    .rates-table th,
+    .rates-table td {
+        padding: 10px;
+    }
+
+    .save-container {
+        text-align: center;
+    }
+}
