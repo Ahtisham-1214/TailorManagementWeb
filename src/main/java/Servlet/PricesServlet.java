@@ -76,7 +76,7 @@ public class PricesServlet extends HttpServlet {
 
             // Add success message to session
             session.setAttribute("successMessage", "Prices updated successfully");
-            response.sendRedirect("/PricesServlet");
+            response.sendRedirect(request.getContextPath() + "/PricesServlet");
 
         } catch (Exception e) {
             request.setAttribute("error", "Update failed" + e.getMessage());
