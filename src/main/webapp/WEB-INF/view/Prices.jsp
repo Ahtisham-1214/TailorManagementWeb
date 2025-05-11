@@ -20,7 +20,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clothing Rates - Admin Panel</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/Prices.css">
-    <script src="${pageContext.request.contextPath}/js/Prices.js"></script>
 </head>
 
 <body>
@@ -114,6 +113,7 @@
         <p id="saveStatus"></p>
     </div>
 </div>
+<script src="${pageContext.request.contextPath}/js/Prices.js"></script>
 </body>
 
 </html>
