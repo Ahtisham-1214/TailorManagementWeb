@@ -58,7 +58,7 @@ public class PricesDatabase {
             System.out.println("Prices updated successfully in the database.");
         } catch (SQLException e) {
             // Handle SQL exceptions
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             System.err.println("Failed to update prices in the database: " + e.getMessage());
         }
     }
